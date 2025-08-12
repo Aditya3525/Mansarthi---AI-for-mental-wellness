@@ -13,6 +13,14 @@ const User = require('./models/User');
 // Import AI service
 const aiService = require('./config/aiService');
 
+// Import validation middleware
+const {
+    validateRegistration,
+    validateLogin,
+    validateAssessment,
+    validateChatMessage
+} = require('./config/validation');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -21,13 +29,38 @@ connectDB();
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static('public'));
+
+// Global error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Global error handler:', err);
+    
+    if (err.type === 'entity.parse.failed') {
+        return res.status(400).json({
+            success: false,
+            message: 'Invalid JSON format'
+        });
+    }
+    
+    if (err.type === 'entity.too.large') {
+        return res.status(413).json({
+            success: false,
+            message: 'Request entity too large'
+        });
+    }
+    
+    res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+    });
+});
 
 // API Routes
 
 // Authentication Routes
-app.post('/api/register', async (req, res) => {
+app.post('/api/register', validateRegistration, async (req, res) => {
     try {
         const { name, email, password, age } = req.body;
         
@@ -71,7 +104,7 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
-app.post('/api/login', async (req, res) => {
+app.post('/api/login', validateLogin, async (req, res) => {
     try {
         const { email, password } = req.body;
         
@@ -134,7 +167,7 @@ app.post('/api/logout', (req, res) => {
 });
 
 // Save user info and assessment
-app.post('/api/save-assessment', async (req, res) => {
+app.post('/api/save-assessment', validateAssessment, async (req, res) => {
     try {
         const { userId, assessmentResults, userInfo } = req.body;
 
@@ -188,7 +221,7 @@ app.post('/api/save-assessment', async (req, res) => {
 });
 
 // Chatbot endpoint - NEW!
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', validateChatMessage, async (req, res) => {
     try {
         const { message, userId, assessmentResults, inputMode, emotionContext } = req.body;
         
