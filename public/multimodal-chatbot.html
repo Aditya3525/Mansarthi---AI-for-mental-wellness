@@ -1,0 +1,1154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Companion - Advanced Therapy Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .ai-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .ai-status {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ai-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .ai-mode {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4CAF50;
+            animation: blink 1.5s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .control-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .control-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .control-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .chat-container {
+            flex: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        .emotion-detector {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .emotion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .emotion-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .emotion-toggle {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        
+        .emotion-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+        
+        .emotion-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .emotion-emoji {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .emotion-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .emotion-confidence {
+            font-size: 14px;
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 0;
+            min-height: 400px;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .message.user {
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .message.ai .message-avatar {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+        
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .message-content {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 18px;
+            max-width: 70%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .message-text {
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .message-timestamp {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 8px;
+        }
+        
+        .emotion-insights {
+            background: #fff3e0;
+            border-left: 3px solid #FF9800;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 0 8px 8px 0;
+            font-size: 12px;
+            color: #e65100;
+        }
+        
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .typing-indicator.show {
+            display: flex;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 18px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #667eea;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        
+        .input-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 15px 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .input-modes {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .mode-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .mode-btn:hover {
+            background: #e0e0e0;
+            transform: scale(1.05);
+        }
+        
+        .mode-btn.active:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+        
+        .voice-visualizer {
+            display: none;
+            align-items: center;
+            gap: 3px;
+            height: 40px;
+        }
+        
+        .voice-visualizer.active {
+            display: flex;
+        }
+        
+        .voice-bar {
+            width: 3px;
+            background: #4CAF50;
+            border-radius: 2px;
+            animation: voiceWave 1s infinite ease-in-out;
+        }
+        
+        .voice-bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+        .voice-bar:nth-child(2) { height: 20px; animation-delay: 0.1s; }
+        .voice-bar:nth-child(3) { height: 15px; animation-delay: 0.2s; }
+        .voice-bar:nth-child(4) { height: 25px; animation-delay: 0.3s; }
+        .voice-bar:nth-child(5) { height: 18px; animation-delay: 0.4s; }
+        
+        @keyframes voiceWave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.3); }
+        }
+        
+        .message-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            background: transparent;
+            color: #333;
+        }
+        
+        .message-input::placeholder {
+            color: #999;
+        }
+        
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 3px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .emotion-training {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .emotion-training.active {
+            display: block;
+        }
+        
+        .training-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .training-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .training-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .emotion-scenario {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .scenario-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .emotion-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        
+        .emotion-option {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            background: white;
+        }
+        
+        .emotion-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .emotion-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .option-emoji {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .option-label {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 10px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .message-content {
+                max-width: 85%;
+            }
+            
+            .emotion-analysis {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .input-modes {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-header">
+        <div class="header-content">
+            <div class="header-info">
+                <div class="ai-avatar" id="aiAvatar">🧠</div>
+                <div class="ai-status">
+                    <div class="ai-name" id="aiName">AI Companion</div>
+                    <div class="ai-mode">
+                        <div class="status-indicator"></div>
+                        <span id="aiMode">Multimodal Therapy Mode</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="control-btn" id="emotionBtn" onclick="toggleEmotionDetection()">
+                    🧠 Emotion Analysis
+                </button>
+                <button class="control-btn" id="trainingBtn" onclick="toggleEmotionTraining()">
+                    🎯 Emotion Training
+                </button>
+                <a href="/dashboard" class="control-btn">🏠 Dashboard</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="chat-container">
+        <!-- Emotion Detection Panel -->
+        <div class="emotion-detector" id="emotionDetector" style="display: none;">
+            <div class="emotion-header">
+                <div class="emotion-title">Real-time Emotion Analysis</div>
+                <button class="emotion-toggle" onclick="toggleEmotionDetection()">Active</button>
+            </div>
+            <div class="emotion-analysis" id="emotionAnalysis">
+                <div class="emotion-item">
+                    <div class="emotion-emoji">😊</div>
+                    <div class="emotion-label">Happiness</div>
+                    <div class="emotion-confidence">75%</div>
+                </div>
+                <div class="emotion-item">
+                    <div class="emotion-emoji">😟</div>
+                    <div class="emotion-label">Anxiety</div>
+                    <div class="emotion-confidence">15%</div>
+                </div>
+                <div class="emotion-item">
+                    <div class="emotion-emoji">😔</div>
+                    <div class="emotion-label">Sadness</div>
+                    <div class="emotion-confidence">10%</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Emotion Training Panel -->
+        <div class="emotion-training" id="emotionTraining">
+            <div class="training-header">
+                <div class="training-title">🎯 Emotional Intelligence Training</div>
+                <div class="training-subtitle">Practice identifying and understanding emotions</div>
+            </div>
+            
+            <div class="emotion-scenario">
+                <div class="scenario-text" id="scenarioText">
+                    Loading emotion training scenario...
+                </div>
+                
+                <div class="emotion-options" id="emotionOptions">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai">
+                <div class="message-avatar">🧠</div>
+                <div class="message-content">
+                    <div class="message-text">
+                        Hello Aditya! I'm your advanced AI companion with multimodal capabilities. I can understand text, voice, and emotions to provide personalized support. How can I help you today?
+                    </div>
+                    <div class="message-timestamp">Just now</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="message-avatar" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);">🧠</div>
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+        
+        <!-- Input Container -->
+        <div class="input-container">
+            <div class="input-modes">
+                <button class="mode-btn active" id="textBtn" onclick="setInputMode('text')" title="Text Input">
+                    💬
+                </button>
+                <button class="mode-btn" id="voiceBtn" onclick="setInputMode('voice')" title="Voice Input">
+                    🎤
+                </button>
+                <button class="mode-btn" id="imageBtn" onclick="setInputMode('image')" title="Image Analysis">
+                    📷
+                </button>
+            </div>
+            
+            <div class="voice-visualizer" id="voiceVisualizer">
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+            </div>
+            
+            <input type="text" class="message-input" id="messageInput" 
+                   placeholder="Type your message or thoughts here..." 
+                   onkeypress="handleKeyPress(event)">
+            
+            <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+            
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                ➤
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentInputMode = 'text';
+        let isRecording = false;
+        let recognition = null;
+        let emotionDetectionActive = false;
+        let emotionTrainingActive = false;
+        let currentScenario = 0;
+        
+        // Initialize speech recognition if available
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('messageInput').value = transcript;
+                stopVoiceRecording();
+                
+                // Analyze emotion in voice (simulated)
+                if (emotionDetectionActive) {
+                    analyzeVoiceEmotion(transcript);
+                }
+            };
+            
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                stopVoiceRecording();
+            };
+        }
+        
+        // Emotion training scenarios
+        const emotionScenarios = [
+            {
+                text: "You just received feedback from your boss saying your project needs major revisions, and the deadline is tomorrow. You feel your heart racing and your palms getting sweaty.",
+                correctEmotion: "anxiety",
+                options: [
+                    { emoji: "😰", label: "Anxiety", value: "anxiety" },
+                    { emoji: "😠", label: "Anger", value: "anger" },
+                    { emoji: "😔", label: "Sadness", value: "sadness" },
+                    { emoji: "😐", label: "Neutral", value: "neutral" }
+                ]
+            },
+            {
+                text: "Your best friend just told you they're moving to another country. You feel a heaviness in your chest and tears forming in your eyes.",
+                correctEmotion: "sadness",
+                options: [
+                    { emoji: "😢", label: "Sadness", value: "sadness" },
+                    { emoji: "😰", label: "Anxiety", value: "anxiety" },
+                    { emoji: "😠", label: "Anger", value: "anger" },
+                    { emoji: "😊", label: "Happiness", value: "happiness" }
+                ]
+            },
+            {
+                text: "Someone cut in front of you in a long line you've been waiting in for 30 minutes. You feel heat rising in your face and your jaw clenching.",
+                correctEmotion: "anger",
+                options: [
+                    { emoji: "😠", label: "Anger", value: "anger" },
+                    { emoji: "😔", label: "Disappointment", value: "disappointment" },
+                    { emoji: "😰", label: "Anxiety", value: "anxiety" },
+                    { emoji: "😐", label: "Neutral", value: "neutral" }
+                ]
+            },
+            {
+                text: "You just got a promotion at work that you've been working toward for months. You feel like jumping up and down and calling everyone you know.",
+                correctEmotion: "happiness",
+                options: [
+                    { emoji: "😊", label: "Happiness", value: "happiness" },
+                    { emoji: "😮", label: "Surprise", value: "surprise" },
+                    { emoji: "😌", label: "Relief", value: "relief" },
+                    { emoji: "😐", label: "Neutral", value: "neutral" }
+                ]
+            }
+        ];
+        
+        function setInputMode(mode) {
+            currentInputMode = mode;
+            
+            // Update button states
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(mode + 'Btn').classList.add('active');
+            
+            // Update input placeholder and functionality
+            const messageInput = document.getElementById('messageInput');
+            const sendBtn = document.getElementById('sendBtn');
+            
+            switch (mode) {
+                case 'text':
+                    messageInput.placeholder = "Type your message or thoughts here...";
+                    messageInput.style.display = 'block';
+                    sendBtn.innerHTML = '➤';
+                    stopVoiceRecording();
+                    break;
+                    
+                case 'voice':
+                    messageInput.placeholder = "Click the microphone to start voice input...";
+                    sendBtn.innerHTML = '🎤';
+                    if (recognition) {
+                        startVoiceRecording();
+                    } else {
+                        alert('Voice recognition is not supported in your browser. Please use Chrome or Edge.');
+                        setInputMode('text');
+                    }
+                    break;
+                    
+                case 'image':
+                    messageInput.placeholder = "Upload an image for analysis...";
+                    sendBtn.innerHTML = '📷';
+                    stopVoiceRecording();
+                    break;
+            }
+        }
+        
+        function startVoiceRecording() {
+            if (!recognition || isRecording) return;
+            
+            isRecording = true;
+            document.getElementById('voiceVisualizer').classList.add('active');
+            document.getElementById('sendBtn').innerHTML = '⏹️';
+            
+            try {
+                recognition.start();
+            } catch (error) {
+                console.error('Error starting voice recognition:', error);
+                stopVoiceRecording();
+            }
+        }
+        
+        function stopVoiceRecording() {
+            if (!recognition || !isRecording) return;
+            
+            isRecording = false;
+            document.getElementById('voiceVisualizer').classList.remove('active');
+            document.getElementById('sendBtn').innerHTML = '🎤';
+            
+            try {
+                recognition.stop();
+            } catch (error) {
+                console.error('Error stopping voice recognition:', error);
+            }
+        }
+        
+        function toggleEmotionDetection() {
+            emotionDetectionActive = !emotionDetectionActive;
+            const detector = document.getElementById('emotionDetector');
+            const btn = document.getElementById('emotionBtn');
+            
+            if (emotionDetectionActive) {
+                detector.style.display = 'block';
+                btn.classList.add('active');
+                updateEmotionAnalysis();
+            } else {
+                detector.style.display = 'none';
+                btn.classList.remove('active');
+            }
+        }
+        
+        function toggleEmotionTraining() {
+            emotionTrainingActive = !emotionTrainingActive;
+            const training = document.getElementById('emotionTraining');
+            const btn = document.getElementById('trainingBtn');
+            
+            if (emotionTrainingActive) {
+                training.classList.add('active');
+                btn.classList.add('active');
+                loadEmotionScenario();
+            } else {
+                training.classList.remove('active');
+                btn.classList.remove('active');
+            }
+        }
+        
+        function loadEmotionScenario() {
+            const scenario = emotionScenarios[currentScenario];
+            document.getElementById('scenarioText').textContent = scenario.text;
+            
+            const optionsContainer = document.getElementById('emotionOptions');
+            optionsContainer.innerHTML = '';
+            
+            scenario.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'emotion-option';
+                optionElement.onclick = () => selectEmotionOption(index, option.value, scenario.correctEmotion);
+                
+                optionElement.innerHTML = `
+                    <div class="option-emoji">${option.emoji}</div>
+                    <div class="option-label">${option.label}</div>
+                `;
+                
+                optionsContainer.appendChild(optionElement);
+            });
+        }
+        
+        function selectEmotionOption(index, selectedEmotion, correctEmotion) {
+            // Remove previous selections
+            document.querySelectorAll('.emotion-option').forEach(opt => opt.classList.remove('selected'));
+            
+            // Mark selected
+            document.querySelectorAll('.emotion-option')[index].classList.add('selected');
+            
+            // Provide feedback
+            setTimeout(() => {
+                const isCorrect = selectedEmotion === correctEmotion;
+                const feedback = isCorrect ? 
+                    `✅ Correct! This situation typically triggers ${correctEmotion}.` :
+                    `❌ The primary emotion here is usually ${correctEmotion}. ${selectedEmotion} might be secondary.`;
+                
+                addAIMessage(feedback);
+                
+                // Move to next scenario
+                setTimeout(() => {
+                    currentScenario = (currentScenario + 1) % emotionScenarios.length;
+                    loadEmotionScenario();
+                }, 2000);
+            }, 1000);
+        }
+        
+        function analyzeVoiceEmotion(transcript) {
+            // Simulate emotion analysis based on text content and tone
+            const emotions = analyzeTextEmotion(transcript);
+            updateEmotionDisplay(emotions);
+        }
+        
+        function analyzeTextEmotion(text) {
+            const emotionKeywords = {
+                anxiety: ['worried', 'nervous', 'anxious', 'scared', 'afraid', 'panic', 'stress'],
+                sadness: ['sad', 'depressed', 'down', 'hopeless', 'lonely', 'empty', 'grief'],
+                anger: ['angry', 'mad', 'furious', 'annoyed', 'frustrated', 'irritated'],
+                happiness: ['happy', 'joy', 'excited', 'great', 'wonderful', 'amazing', 'love'],
+                neutral: ['okay', 'fine', 'normal', 'alright']
+            };
+            
+            const emotions = { anxiety: 0, sadness: 0, anger: 0, happiness: 0, neutral: 0 };
+            const words = text.toLowerCase().split(' ');
+            
+            Object.keys(emotionKeywords).forEach(emotion => {
+                emotionKeywords[emotion].forEach(keyword => {
+                    if (words.some(word => word.includes(keyword))) {
+                        emotions[emotion] += 30;
+                    }
+                });
+            });
+            
+            // Normalize and add some randomness for demo
+            const total = Object.values(emotions).reduce((a, b) => a + b, 0);
+            if (total > 0) {
+                Object.keys(emotions).forEach(emotion => {
+                    emotions[emotion] = Math.round((emotions[emotion] / total) * 100);
+                });
+            } else {
+                emotions.neutral = 70;
+                emotions.happiness = 30;
+            }
+            
+            return emotions;
+        }
+        
+        function updateEmotionDisplay(emotions) {
+            const analysisContainer = document.getElementById('emotionAnalysis');
+            const emotionEmojis = {
+                happiness: '😊',
+                anxiety: '😰',
+                sadness: '😔',
+                anger: '😠',
+                neutral: '😐'
+            };
+            
+            analysisContainer.innerHTML = '';
+            
+            Object.entries(emotions).forEach(([emotion, confidence]) => {
+                if (confidence > 5) {
+                    const emotionItem = document.createElement('div');
+                    emotionItem.className = 'emotion-item';
+                    
+                    emotionItem.innerHTML = `
+                        <div class="emotion-emoji">${emotionEmojis[emotion]}</div>
+                        <div class="emotion-label">${emotion.charAt(0).toUpperCase() + emotion.slice(1)}</div>
+                        <div class="emotion-confidence">${confidence}%</div>
+                    `;
+                    
+                    analysisContainer.appendChild(emotionItem);
+                }
+            });
+        }
+        
+        function updateEmotionAnalysis() {
+            if (!emotionDetectionActive) return;
+            
+            // Simulate real-time emotion updates
+            const emotions = {
+                happiness: Math.floor(Math.random() * 40) + 30,
+                anxiety: Math.floor(Math.random() * 30) + 10,
+                sadness: Math.floor(Math.random() * 20) + 5,
+                anger: Math.floor(Math.random() * 15) + 5,
+                neutral: Math.floor(Math.random() * 25) + 15
+            };
+            
+            updateEmotionDisplay(emotions);
+            
+            setTimeout(updateEmotionAnalysis, 5000); // Update every 5 seconds
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageData = e.target.result;
+                addUserMessage("📷 Image uploaded for analysis");
+                
+                // Simulate image emotion analysis
+                setTimeout(() => {
+                    addAIMessage("I can see you've shared an image. While I can't fully analyze images yet, I notice this might be related to your current emotional state. Can you tell me more about what this image represents to you?");
+                }, 1500);
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        async function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            if (!message && currentInputMode !== 'voice' && currentInputMode !== 'image') return;
+            
+            switch (currentInputMode) {
+                case 'text':
+                    if (message) {
+                        addUserMessage(message);
+                        messageInput.value = '';
+                        await processMessage(message);
+                    }
+                    break;
+                    
+                case 'voice':
+                    if (isRecording) {
+                        stopVoiceRecording();
+                    } else {
+                        startVoiceRecording();
+                    }
+                    break;
+                    
+                case 'image':
+                    document.getElementById('imageInput').click();
+                    break;
+            }
+        }
+        
+        async function processMessage(message) {
+            showTypingIndicator();
+            
+            // Analyze emotions in the message
+            if (emotionDetectionActive) {
+                const emotions = analyzeTextEmotion(message);
+                updateEmotionDisplay(emotions);
+            }
+            
+            try {
+                // Get user data for personalization
+                const userPath = JSON.parse(localStorage.getItem('userPath') || '{}');
+                const assessmentResults = JSON.parse(localStorage.getItem('assessmentResults') || '{}');
+                const userId = localStorage.getItem('userId');
+                
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        userId: userId,
+                        assessmentResults: assessmentResults,
+                        inputMode: currentInputMode,
+                        emotionContext: emotionDetectionActive ? analyzeTextEmotion(message) : null
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    hideTypingIndicator();
+                    addAIMessage(data.response);
+                    
+                    // Add emotional insights if available
+                    if (emotionDetectionActive && data.emotionalInsights) {
+                        addEmotionalInsights(data.emotionalInsights);
+                    }
+                    // Increment local chat count cache
+                    try {
+                        const uid = localStorage.getItem('userId');
+                        let cc = parseInt(localStorage.getItem('chatCount') || '0', 10) + 1;
+                        localStorage.setItem('chatCount', String(cc));
+                        // Server already saves each chat message to chatHistory when userId is provided
+                    } catch {}
+
+                } else {
+                    throw new Error(data.message || 'Failed to get response');
+                }
+                
+            } catch (error) {
+                console.error('Error sending message:', error);
+                hideTypingIndicator();
+                addAIMessage("I apologize, but I'm having some technical difficulties. However, I want you to know that I'm here for you. Take a deep breath, and remember that whatever you're going through, you're not alone.");
+            }
+        }
+        
+        function addUserMessage(message) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message user';
+            
+            messageElement.innerHTML = `
+                <div class="message-avatar">👤</div>
+                <div class="message-content">
+                    <div class="message-text">${message}</div>
+                    <div class="message-timestamp">${new Date().toLocaleTimeString()}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageElement);
+            scrollToBottom();
+        }
+        
+        function addAIMessage(message) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message ai';
+            
+            messageElement.innerHTML = `
+                <div class="message-avatar">🧠</div>
+                <div class="message-content">
+                    <div class="message-text">${message}</div>
+                    <div class="message-timestamp">${new Date().toLocaleTimeString()}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageElement);
+            scrollToBottom();
+            
+            // Text-to-speech for AI responses (optional)
+            if (currentInputMode === 'voice' && 'speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(message);
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function addEmotionalInsights(insights) {
+            const lastMessage = document.querySelector('.message.ai:last-child .message-content');
+            const insightsElement = document.createElement('div');
+            insightsElement.className = 'emotion-insights';
+            insightsElement.textContent = insights;
+            lastMessage.appendChild(insightsElement);
+        }
+        
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').classList.add('show');
+            scrollToBottom();
+        }
+        
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').classList.remove('show');
+        }
+        
+        function scrollToBottom() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        // Initialize the chat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set user name in AI greeting
+            const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+            const userPath = JSON.parse(localStorage.getItem('userPath') || '{}');
+            
+            if (userPath.path) {
+                const pathEmojis = { western: '🧠', eastern: '🧘', hybrid: '🌟' };
+                document.getElementById('aiAvatar').textContent = pathEmojis[userPath.path];
+                document.getElementById('aiName').textContent = `${userPath.path.charAt(0).toUpperCase() + userPath.path.slice(1)} AI Companion`;
+            }
+            
+            // Focus on input
+            document.getElementById('messageInput').focus();
+        });
+    </script>
+</body>
+<script src="/js/metaManager.js"></script>
+<script src="/js/errorHandler.js"></script>
+<script src="/js/personalization-engine.js"></script>
+</html>

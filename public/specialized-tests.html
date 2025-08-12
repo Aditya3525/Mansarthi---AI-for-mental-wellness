@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specialized Mental Health Tests - Mindful AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 40px 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .intro-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .intro-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        .intro-text {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .completion-status {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .status-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .status-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .status-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .tests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .test-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .test-card.completed::before {
+            content: '✓';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #4CAF50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .test-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .test-title {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .test-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .test-details {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        
+        .test-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .test-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .test-button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+        
+        .primary-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .secondary-button {
+            background: #f0f0f0;
+            color: #666;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .results-summary {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .results-summary.show {
+            display: block;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .summary-card {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+        
+        .summary-score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .summary-test {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .summary-status {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: #4CAF50;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .tests-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .status-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Specialized Mental Health Assessments</h1>
+            <p>Take these optional, detailed assessments when you want deeper insights into specific aspects of your mental health. Each test provides targeted recommendations and coping strategies.</p>
+            
+            <div class="nav-buttons">
+                <a href="/dashboard" class="nav-btn">🏠 Dashboard</a>
+                <a href="/chatbot" class="nav-btn">💬 AI Companion</a>
+                <a href="/resources" class="nav-btn">📚 Resources</a>
+            </div>
+        </div>
+        
+        <div class="intro-section">
+            <h2>📊 Your Testing Progress</h2>
+            <p class="intro-text">
+                These specialized tests dive deeper into specific mental health areas. Unlike your initial check-in, these are comprehensive assessments that can help identify patterns and provide targeted support strategies.
+            </p>
+            
+            <div class="completion-status">
+                <strong>Completion Overview</strong>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <div class="status-number" id="completedCount">0</div>
+                        <div class="status-label">Tests Completed</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-number">7</div>
+                        <div class="status-label">Total Available</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-number" id="avgScore">--</div>
+                        <div class="status-label">Average Score</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-number" id="lastTaken">--</div>
+                        <div class="status-label">Days Since Last</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="resultsSummary" class="results-summary">
+            <h2>📈 Your Test Results Summary</h2>
+            <div class="summary-grid" id="summaryGrid">
+                <!-- Results will be populated here -->
+            </div>
+        </div>
+        
+        <div class="tests-grid">
+            <div class="test-card" data-test="anxiety">
+                <div class="test-icon">😰</div>
+                <div class="test-title">Anxiety Assessment</div>
+                <div class="test-description">
+                    Comprehensive evaluation of anxiety symptoms, triggers, and coping mechanisms. Helps identify specific anxiety patterns and provides targeted relaxation techniques.
+                </div>
+                <div class="test-details">
+                    <div class="test-meta">
+                        <span>⏱️ 8-10 minutes</span>
+                        <span>📝 15 questions</span>
+                        <span>🎯 Anxiety-focused</span>
+                    </div>
+                    <strong>What you'll learn:</strong> Anxiety triggers, physical symptoms, coping effectiveness
+                </div>
+                <div class="test-actions">
+                    <button class="test-button primary-button" onclick="startTest('anxiety')">Start Test</button>
+                    <button class="test-button secondary-button" onclick="viewInfo('anxiety')">Learn More</button>
+                </div>
+            </div>
+            
+            <div class="test-card" data-test="depression">
+                <div class="test-icon">😔</div>
+                <div class="test-title">Depression Screening</div>
+                <div class="test-description">
+                    In-depth assessment of mood patterns, energy levels, and emotional wellbeing. Provides insights into depressive symptoms and mood management strategies.
+                </div>
+                <div class="test-details">
+                    <div class="test-meta">
+                        <span>⏱️ 10-12 minutes</span>
+                        <span>📝 18 questions</span>
+                        <span>🎯 Mood-focused</span>
+                    </div>
+                    <strong>What you'll learn:</strong> Mood patterns, energy levels, motivation factors
+                </div>
+                <div class="test-actions">
+                    <button class="test-button primary-button" onclick="startTest('depression')">Start Test</button>
+                    <button class="test-button secondary-button" onclick="viewInfo('depression')">Learn More</button>
+                </div>
+            </div>
+            
+            <div class="test-card" data-test="stress">
+                <div class="test-icon">😤</div>
+                <div class="test-title">Stress Level Analysis</div>
+                <div class="test-description">
+                    Detailed evaluation of stress sources, physical symptoms, and current coping strategies. Identifies stress patterns and provides personalized stress management techniques.
+                </div>
+                <div class="test-details">
+                    <div class="test-meta">
+                        <span>⏱️ 6-8 minutes</span>
+                        <span>📝 12 questions</span>
+                        <span>🎯 Stress-focused</span>
+                    </div>
+                    <strong>What you'll learn:</strong> Stress sources, physical impact, coping effectiveness
+                </div>
+                <div class="test-actions">
+                    <button class="test-button primary-button" onclick="startTest('stress')">Start Test</button>
+                    <button class="test-button secondary-button" onclick="viewInfo('stress')">Learn More</button>
+                </div>
+            </div>
+            
+            <div class="test-card" data-test="sleep">
+                <div class="test-icon">😴</div>
+                <div class="test-title">Sleep Quality Assessment</div>
+                <div class="test-description">
+                    Comprehensive sleep pattern analysis including sleep hygiene, disturbances, and restorative quality. Provides personalized sleep improvement strategies.
+                </div>
+                <div class="test-details">
+                    <div class="test-meta">
+                        <span>⏱️ 7-9 minutes</span>
+                        <span>📝 14 questions</span>
+                        <span>🎯 Sleep-focused</span>
+                    </div>
+                    <strong>What you'll learn:</strong> Sleep patterns, quality factors, improvement strategies
+                </div>
+                <div class="test-actions">
+                    <button class="test-button primary-button" onclick="startTest('sleep')">Start Test</button>
+                    <button class="test-button secondary-button" onclick="viewInfo('sleep')">Learn More</button>
+                </div>
+            </div>
+            
+            <div class="test-card" data-test="social">
+                <div class="test-icon">👥</div>
+                <div class="test-title">Social Wellbeing Evaluation</div>
+                <div class="test-description">
+                    Assessment of social connections, relationship satisfaction, and social anxiety. Helps identify social support needs and relationship improvement areas.
+                </div>
+                <div class="test-details">
+                    <div class="test-meta">
+                        <span>⏱️ 8-10 minutes</span>
+                        <span>📝 16 questions</span>
+                        <span>🎯 Relationship-focused</span>
+                    </div>
+                    <strong>What you'll learn:</strong> Social connections, relationship quality, support systems
+                </div>
+                <div class="test-actions">
+                    <button class="test-button primary-button" onclick="startTest('social')">Start Test</button>
+                    <button class="test-button secondary-button" onclick="viewInfo('social')">Learn More</button>
+                </div>
+            </div>
+            
+            <div class="test-card" data-test="work-life">
+                <div class="test-icon">⚖️</div>
+                <div class="test-title">Work-Life Balance Check</div>
+                <div class="test-description">
+                    Evaluation of work stress, life satisfaction, and balance between professional and personal life. Provides strategies for better work-life integration.
+                </div>
+                <div class="test-details">
+                    <div class="test-meta">
+                        <span>⏱️ 6-8 minutes</span>
+                        <span>📝 13 questions</span>
+                        <span>🎯 Balance-focused</span>
+                    </div>
+                    <strong>What you'll learn:</strong> Work stress, life satisfaction, balance strategies
+                </div>
+                <div class="test-actions">
+                    <button class="test-button primary-button" onclick="startTest('work-life')">Start Test</button>
+                    <button class="test-button secondary-button" onclick="viewInfo('work-life')">Learn More</button>
+                </div>
+            </div>
+            
+            <div class="test-card" data-test="self-esteem">
+                <div class="test-icon">💪</div>
+                <div class="test-title">Self-Esteem & Confidence</div>
+                <div class="test-description">
+                    Assessment of self-worth, confidence levels, and self-perception patterns. Identifies areas for building stronger self-esteem and personal confidence.
+                </div>
+                <div class="test-details">
+                    <div class="test-meta">
+                        <span>⏱️ 7-9 minutes</span>
+                        <span>📝 15 questions</span>
+                        <span>🎯 Self-worth focused</span>
+                    </div>
+                    <strong>What you'll learn:</strong> Self-perception, confidence levels, improvement areas
+                </div>
+                <div class="test-actions">
+                    <button class="test-button primary-button" onclick="startTest('self-esteem')">Start Test</button>
+                    <button class="test-button secondary-button" onclick="viewInfo('self-esteem')">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load completed tests from localStorage
+        function loadCompletedTests() {
+            const completedTests = JSON.parse(localStorage.getItem('specializedTests') || '{}');
+            let completedCount = 0;
+            let totalScore = 0;
+            let latestDate = null;
+            
+            // Mark completed tests
+            Object.keys(completedTests).forEach(testType => {
+                const testCard = document.querySelector(`[data-test="${testType}"]`);
+                if (testCard) {
+                    testCard.classList.add('completed');
+                    completedCount++;
+                    totalScore += completedTests[testType].score || 0;
+                    
+                    const testDate = new Date(completedTests[testType].completedAt);
+                    if (!latestDate || testDate > latestDate) {
+                        latestDate = testDate;
+                    }
+                }
+            });
+            
+            // Update statistics
+            document.getElementById('completedCount').textContent = completedCount;
+            
+            if (completedCount > 0) {
+                document.getElementById('avgScore').textContent = Math.round(totalScore / completedCount) + '%';
+                
+                if (latestDate) {
+                    const daysSince = Math.floor((new Date() - latestDate) / (1000 * 60 * 60 * 24));
+                    document.getElementById('lastTaken').textContent = daysSince;
+                }
+                
+                // Show results summary
+                displayResultsSummary(completedTests);
+            }
+        }
+        
+        function displayResultsSummary(completedTests) {
+            const summaryGrid = document.getElementById('summaryGrid');
+            const resultsSummary = document.getElementById('resultsSummary');
+            
+            summaryGrid.innerHTML = '';
+            
+            Object.keys(completedTests).forEach(testType => {
+                const test = completedTests[testType];
+                const summaryCard = document.createElement('div');
+                summaryCard.className = 'summary-card';
+                
+                summaryCard.innerHTML = `
+                    <div class="summary-score">${test.score}%</div>
+                    <div class="summary-test">${test.testName || testType}</div>
+                    <div class="summary-status">Completed</div>
+                `;
+                
+                summaryGrid.appendChild(summaryCard);
+            });
+            
+            resultsSummary.classList.add('show');
+        }
+        
+        function startTest(testType) {
+            // For now, simulate a test - in the next step we'll create individual test pages
+            alert(`Starting ${testType} assessment...\n\nThis will redirect to a detailed ${testType} assessment page.\n\n(Individual test pages coming in next step!)`);
+            
+            // Simulate completion for demo
+            const testResult = {
+                score: Math.floor(Math.random() * 40) + 60, // Random score 60-100
+                testName: getTestName(testType),
+                completedAt: new Date().toISOString(),
+                testType: testType
+            };
+            
+            const completedTests = JSON.parse(localStorage.getItem('specializedTests') || '{}');
+            completedTests[testType] = testResult;
+            localStorage.setItem('specializedTests', JSON.stringify(completedTests));
+            
+            // Reload to show updated status
+            loadCompletedTests();
+        }
+        
+        function viewInfo(testType) {
+            const testInfo = {
+                anxiety: "This assessment evaluates various aspects of anxiety including physical symptoms, worry patterns, social anxiety, and panic responses. It helps identify specific triggers and provides personalized coping strategies.",
+                depression: "A comprehensive mood assessment that examines energy levels, motivation, sleep patterns, appetite, and emotional wellbeing to identify depressive symptoms and suggest appropriate support resources.",
+                stress: "Analyzes stress sources, physical symptoms, and current coping mechanisms to provide insights into stress patterns and effective management strategies tailored to your lifestyle.",
+                sleep: "Evaluates sleep quality, habits, disturbances, and environmental factors to identify areas for improvement and provide personalized sleep hygiene recommendations.",
+                social: "Assesses relationship satisfaction, social support systems, communication patterns, and social confidence to help improve interpersonal connections and social wellbeing.",
+                "work-life": "Examines work stress, time management, boundary setting, and life satisfaction to provide strategies for achieving better work-life balance and reducing burnout.",
+                "self-esteem": "Evaluates self-perception, confidence levels, self-talk patterns, and personal achievements to identify areas for building stronger self-worth and confidence."
+            };
+            
+            alert(`📋 ${getTestName(testType)} Information:\n\n${testInfo[testType] || 'Detailed information about this assessment.'}`);
+        }
+        
+        function getTestName(testType) {
+            const names = {
+                anxiety: 'Anxiety Assessment',
+                depression: 'Depression Screening',
+                stress: 'Stress Level Analysis',
+                sleep: 'Sleep Quality Assessment',
+                social: 'Social Wellbeing Evaluation',
+                'work-life': 'Work-Life Balance Check',
+                'self-esteem': 'Self-Esteem & Confidence'
+            };
+            return names[testType] || testType;
+        }
+        
+        // Initialize page
+        loadCompletedTests();
+    </script>
+</body>
+</html>

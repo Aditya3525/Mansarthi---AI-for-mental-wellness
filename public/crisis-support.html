@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisis Support - Immediate Help Available</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #ffebee;
+            border-radius: 10px;
+            border-left: 5px solid #f44336;
+        }
+        
+        .header h1 {
+            color: #d32f2f;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .urgent-message {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .emergency-section {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #ff9800;
+        }
+        
+        .emergency-title {
+            color: #f57c00;
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .emergency-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #d32f2f;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .hotlines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .hotline-card {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .hotline-title {
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .hotline-number {
+            color: #d32f2f;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .hotline-details {
+            color: #666;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .immediate-actions {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 5px solid #4caf50;
+        }
+        
+        .immediate-actions h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        
+        .action-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .action-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .action-number {
+            background: #4caf50;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .warning-signs {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 5px solid #ff9800;
+        }
+        
+        .warning-signs h3 {
+            color: #f57c00;
+            margin-bottom: 15px;
+        }
+        
+        .signs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .sign-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .emergency-btn {
+            background: #f44336;
+            color: white;
+        }
+        
+        .chat-btn {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .support-btn {
+            background: #667eea;
+            color: white;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .resources-section {
+            margin-top: 40px;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .resource-card {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .resource-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .resource-title {
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .resource-description {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .hotlines-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 Immediate Crisis Support</h1>
+            <div class="urgent-message">
+                If you're having thoughts of self-harm or suicide, please reach out for help immediately. You are not alone, and support is available 24/7.
+            </div>
+        </div>
+
+        <div class="emergency-section">
+            <div class="emergency-title">🆘 Emergency Services</div>
+            <div style="text-align: center; margin: 20px 0;">
+                <strong>If you are in immediate danger, call:</strong>
+            </div>
+            <div class="emergency-number">911</div>
+            <div style="text-align: center; color: #666; font-size: 14px;">
+                Emergency services are available 24/7 for immediate assistance
+            </div>
+        </div>
+
+        <div class="hotlines-grid">
+            <div class="hotline-card">
+                <div class="hotline-title">🇺🇸 National Suicide Prevention Lifeline</div>
+                <div class="hotline-number">988</div>
+                <div class="hotline-details">
+                    24/7 free and confidential support<br>
+                    También disponible en español<br>
+                    Text "HELLO" to 741741 for Crisis Text Line
+                </div>
+            </div>
+
+            <div class="hotline-card">
+                <div class="hotline-title">🇮🇳 KIRAN Mental Health Helpline</div>
+                <div class="hotline-number">1800-599-0019</div>
+                <div class="hotline-details">
+                    24/7 toll-free helpline<br>
+                    Available in 13 languages<br>
+                    Vandrevala Foundation: 9999 666 555
+                </div>
+            </div>
+
+            <div class="hotline-card">
+                <div class="hotline-title">🇬🇧 Samaritans</div>
+                <div class="hotline-number">116 123</div>
+                <div class="hotline-details">
+                    24/7 free support<br>
+                    Email: jo@samaritans.org<br>
+                    Welsh Language Line: 0808 164 0123
+                </div>
+            </div>
+
+            <div class="hotline-card">
+                <div class="hotline-title">🇨🇦 Talk Suicide Canada</div>
+                <div class="hotline-number">1-833-456-4566</div>
+                <div class="hotline-details">
+                    24/7 bilingual service<br>
+                    Text 45645 (4 PM - 12 AM ET)<br>
+                    Available in English and French
+                </div>
+            </div>
+        </div>
+
+        <div class="immediate-actions">
+            <h3>🛡️ Immediate Safety Steps</h3>
+            <ul class="action-list">
+                <li class="action-item">
+                    <div class="action-number">1</div>
+                    <div>Remove any means of self-harm from your immediate environment</div>
+                </li>
+                <li class="action-item">
+                    <div class="action-number">2</div>
+                    <div>Call a trusted friend, family member, or mental health professional</div>
+                </li>
+                <li class="action-item">
+                    <div class="action-number">3</div>
+                    <div>Go to a safe place with other people around</div>
+                </li>
+                <li class="action-item">
+                    <div class="action-number">4</div>
+                    <div>Use grounding techniques: 5 things you see, 4 you hear, 3 you touch</div>
+                </li>
+                <li class="action-item">
+                    <div class="action-number">5</div>
+                    <div>If safe to do so, contact emergency services or go to nearest hospital</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <a href="tel:988" class="action-button emergency-btn">📞 Call Crisis Line</a>
+            <a href="/multimodal-chatbot" class="action-button chat-btn">💬 AI Crisis Support</a>
+            <a href="mailto:crisis@mindfulai.com" class="action-button support-btn">📧 Contact Our Team</a>
+        </div>
+
+        <div class="warning-signs">
+            <h3>⚠️ Warning Signs to Watch For</h3>
+            <div class="signs-grid">
+                <div class="sign-item">Talking about death or suicide</div>
+                <div class="sign-item">Feeling hopeless or trapped</div>
+                <div class="sign-item">Severe mood swings</div>
+                <div class="sign-item">Withdrawing from activities</div>
+                <div class="sign-item">Giving away possessions</div>
+                <div class="sign-item">Increased substance use</div>
+                <div class="sign-item">Sleeping too much/little</div>
+                <div class="sign-item">Feeling like a burden</div>
+            </div>
+        </div>
+
+        <div class="resources-section">
+            <h3 style="text-align: center; margin-bottom: 20px; color: #333;">📚 Additional Resources</h3>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">🌐</div>
+                    <div class="resource-title">Crisis Chat</div>
+                    <div class="resource-description">Online text support with trained counselors</div>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon">🏥</div>
+                    <div class="resource-title">Emergency Rooms</div>
+                    <div class="resource-description">Immediate medical and psychiatric care</div>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon">👥</div>
+                    <div class="resource-title">Support Groups</div>
+                    <div class="resource-description">Connect with others who understand</div>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon">🔒</div>
+                    <div class="resource-title">Safety Planning</div>
+                    <div class="resource-description">Create a personal crisis response plan</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f9ff; border-radius: 10px;">
+            <h3 style="color: #333; margin-bottom: 15px;">💙 Remember</h3>
+            <p style="color: #666; line-height: 1.6; margin: 0;">
+                Crisis feelings are temporary. You matter, your life has value, and there are people who want to help. 
+                Reaching out for support is a sign of strength, not weakness.
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="/dashboard" class="action-button support-btn">Return to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

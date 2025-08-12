@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mental Wellbeing AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-text {
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .user-name {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .feature-action {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .stats-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .stats-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .quick-actions {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quick-actions h3 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .action-btn.secondary {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+        }
+        
+        .action-btn.secondary:hover {
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .welcome-text {
+                font-size: 16px;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+    <script src="/config/errorHandler.js"></script>
+    <script src="/config/metaManager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pageName = window.location.pathname.replace('/', '') || 'dashboard';
+            window.metaManager.setPageMeta(window.metaManager.getPageMeta(pageName));
+            setTimeout(() => {
+                if (Math.random() < 0.3) {
+                    window.errorHandler.showFeedbackWidget();
+                }
+            }, 30000);
+        });
+    </script>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            <h1>🌟 Mental Wellbeing Dashboard</h1>
+            <p class="welcome-text">Welcome back, <span class="user-name" id="userName">User</span>! How are you feeling today?</p>
+        </div>
+        
+        <div class="stats-section" id="statsSection" style="display: none;">
+            <h3 class="stats-title">📊 Your Wellbeing Journey</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="assessmentScore">--</div>
+                    <div class="stat-label">Latest Assessment Score</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="chatCount">--</div>
+                    <div class="stat-label">AI Chat Sessions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="daysSinceAssessment">--</div>
+                    <div class="stat-label">Days Since Assessment</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <a href="/assessment.html" class="feature-card">
+                <div class="feature-icon">📋</div>
+                <div class="feature-title">Mental Health Assessment</div>
+                <div class="feature-description">
+                    Take our comprehensive 12-question assessment to understand your current mental health status and get personalized recommendations.
+                </div>
+                <div class="feature-action">Start Assessment</div>
+            </a>
+            
+            <a href="/multimodal-chatbot" class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <div class="feature-title">Advanced AI Companion</div>
+                <div class="feature-description">
+                    Multimodal therapy bot with voice input, emotional intelligence training, and real-time emotion analysis for deeper support.
+                </div>
+                <div class="feature-action">Start Advanced Chat</div>
+            </a>
+            
+            <a href="/resources" class="feature-card">
+                <div class="feature-icon">📚</div>
+                <div class="feature-title">Wellness Resources</div>
+                <div class="feature-description">
+                    Access our comprehensive library of meditation guides, coping strategies, sleep tips, and educational content.
+                </div>
+                <div class="feature-action">Browse Resources</div>
+            </a>
+            
+            <div class="feature-card" onclick="showEmergencyContacts()">
+                <div class="feature-icon">🚨</div>
+                <div class="feature-title">Crisis Support</div>
+                <div class="feature-description">
+                    Need immediate help? Access crisis hotlines and emergency mental health resources available 24/7.
+                </div>
+                <div class="feature-action">Get Help Now</div>
+            </div>
+            
+            <a href="/daily-practice" class="feature-card">
+                <div class="feature-icon">🌱</div>
+                <div class="feature-title">Daily Practice</div>
+                <div class="feature-description">
+                    Follow personalized daily activities based on your chosen wellness path. Build healthy habits with guided practices and progress tracking.
+                </div>
+                <div class="feature-action">Start Today's Practice</div>
+            </a>
+            
+            <a href="/progress-tracking" class="feature-card">
+                <div class="feature-icon">📈</div>
+                <div class="feature-title">Progress Tracking</div>
+                <div class="feature-description">
+                    Monitor your mental wellness journey over time with visual charts, assessment history, and personalized insights about your progress.
+                </div>
+                <div class="feature-action">View Progress</div>
+            </a>
+            
+            <a href="/community" class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <div class="feature-title">Community Support</div>
+                <div class="feature-description">
+                    Connect with others on similar wellness journeys. Share experiences, join group sessions, and find peer support in a safe environment.
+                </div>
+                <div class="feature-action">Join Community</div>
+            </a>
+            <a href="/growth-journey.html" class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <div class="feature-title">Growth Journey</div>
+                <div class="feature-description">
+                    Track your personal growth, set wellness goals, and reflect on your achievements as you progress on your mental wellbeing journey.
+                </div>
+                <div class="feature-action">Explore Growth Journey</div>
+            </a>
+        </div>
+        
+        <div class="quick-actions">
+            <h3>⚡ Quick Actions</h3>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="quickMeditation()">🧘 5-Min Meditation</button>
+                <button class="action-btn secondary" onclick="moodCheck()">😊 Mood Check-in</button>
+                <button class="action-btn" onclick="breathingExercise()">🌬️ Breathing Exercise</button>
+                <button class="action-btn secondary" onclick="gratitudeJournal()">📝 Gratitude Note</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Resolve API base for redirects
+        const API_BASE = (function() {
+            try {
+                const origin = window.location.origin;
+                if (origin && origin.startsWith('http')) return origin;
+            } catch (e) {}
+            return 'http://localhost:3000';
+        })();
+
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+        });
+        
+        function checkAuthentication() {
+            const userInfo = localStorage.getItem('userInfo');
+            if (!userInfo) {
+                // No user logged in, redirect to login
+                window.location.href = `${API_BASE}/login`;
+                return;
+            }
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear all user data
+                localStorage.removeItem('userInfo');
+                localStorage.removeItem('assessmentResults');
+                localStorage.removeItem('gratitudeEntries');
+                
+                // Redirect to login page
+                window.location.href = `${API_BASE}/login`;
+            }
+        }
+        
+        // Load user data
+        const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+        const assessmentResults = JSON.parse(localStorage.getItem('assessmentResults') || '{}');
+        
+        // Display user name
+        if (userInfo.name) {
+            document.getElementById('userName').textContent = userInfo.name;
+        }
+        
+    // Display stats if assessment completed
+        if (assessmentResults.score !== undefined) {
+            document.getElementById('statsSection').style.display = 'block';
+            document.getElementById('assessmentScore').textContent = assessmentResults.score + '%';
+            
+            // Calculate days since assessment
+            if (assessmentResults.completedAt) {
+                const assessmentDate = new Date(assessmentResults.completedAt);
+                const today = new Date();
+                const daysDiff = Math.floor((today - assessmentDate) / (1000 * 60 * 60 * 24));
+                document.getElementById('daysSinceAssessment').textContent = daysDiff;
+            }
+        }
+
+        // Load chat session count
+        (async function loadChatCount() {
+            try {
+                const uid = localStorage.getItem('userId');
+                if (!uid) return;
+                const res = await fetch(`${API_BASE}/api/user/${uid}/chat-history`);
+                if (!res.ok) return;
+                const data = await res.json();
+                const count = Array.isArray(data.chatHistory) ? data.chatHistory.length : 0;
+                const el = document.getElementById('chatCount');
+                if (el) el.textContent = count;
+            } catch (e) {
+                console.warn('Could not load chat count:', e);
+            }
+        })();
+        
+        // Quick action functions
+        function quickMeditation() {
+            alert('🧘 Starting 5-minute breathing meditation...\n\n1. Find a comfortable position\n2. Close your eyes\n3. Focus on your breath\n4. Count each breath from 1 to 10\n5. Repeat for 5 minutes\n\nTake your time and breathe deeply.');
+        }
+        
+        function moodCheck() {
+            const mood = prompt('How are you feeling right now?\n\n1. Great 😊\n2. Good 🙂\n3. Okay 😐\n4. Not great 😔\n5. Struggling 😢\n\nEnter 1-5:');
+            
+            if (mood) {
+                const moods = ['', 'Great! Keep up the positive energy! 🌟', 'Good to hear you\'re doing well! 😊', 'It\'s okay to have neutral days. Take care of yourself. 💙', 'Sorry you\'re not feeling great. Consider talking to someone or using our resources. 🤗', 'I\'m here for you. Please consider reaching out for professional support if needed. 💜'];
+                
+                if (mood >= 1 && mood <= 5) {
+                    alert(moods[mood]);
+                }
+            }
+        }
+        
+        function breathingExercise() {
+            alert('🌬️ Box Breathing Exercise:\n\n1. Inhale for 4 counts\n2. Hold for 4 counts\n3. Exhale for 4 counts\n4. Hold for 4 counts\n\nRepeat this cycle 4-8 times. Focus only on your breathing.');
+        }
+        
+        function gratitudeJournal() {
+            const gratitude = prompt('✨ What are you grateful for today?\n\nWrite one thing you\'re thankful for:');
+            
+            if (gratitude && gratitude.trim()) {
+                // Save to localStorage (in a real app, you'd save to database)
+                const gratitudeEntries = JSON.parse(localStorage.getItem('gratitudeEntries') || '[]');
+                gratitudeEntries.push({
+                    text: gratitude.trim(),
+                    date: new Date().toLocaleDateString()
+                });
+                localStorage.setItem('gratitudeEntries', JSON.stringify(gratitudeEntries));
+                
+                alert('📝 Thank you for sharing! Gratitude helps improve mental wellbeing. Your note has been saved.');
+            }
+        }
+        
+        function showEmergencyContacts() {
+            alert('🚨 Crisis Support Resources:\n\n• National Suicide Prevention Lifeline: 988\n• Crisis Text Line: Text HOME to 741741\n• SAMHSA Helpline: 1-800-662-4357\n• Emergency Services: 911\n\nIf you\'re in immediate danger, please call 911 or go to your nearest emergency room.');
+        }
+        
+        // Set current time
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            console.log(`Dashboard loaded at ${timeString}`);
+        });
+    </script>
+</body>
+</html>

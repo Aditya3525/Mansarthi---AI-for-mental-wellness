@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Wellness Path - Mindful AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .paths-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .path-card {
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: #fafafa;
+            position: relative;
+        }
+        
+        .path-card:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateY(-5px);
+        }
+        
+        .path-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .path-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .path-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .path-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .path-description {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .path-features {
+            text-align: left;
+        }
+        
+        .path-features h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .path-features ul {
+            list-style: none;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        
+        .path-features li {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+        }
+        
+        .path-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .path-card.selected .path-features li::before {
+            color: #fff;
+        }
+        
+        .detailed-info {
+            display: none;
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .detailed-info.show {
+            display: block;
+        }
+        
+        .info-section {
+            margin-bottom: 25px;
+        }
+        
+        .info-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .info-section p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .techniques-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .technique-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .technique-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .technique-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .action-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .primary-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .secondary-button {
+            background: #f0f0f0;
+            color: #666;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .action-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .paths-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌱 Choose Your Wellness Path</h1>
+            <p>Select the approach that resonates most with you. You can always explore techniques from other paths or change your preference later.</p>
+        </div>
+        
+        <div class="paths-container">
+            <div class="path-card" onclick="selectPath('western')" data-path="western">
+                <div class="path-icon">🧠</div>
+                <div class="path-title">Western Approach</div>
+                <div class="path-subtitle">Science-Based Therapy</div>
+                <div class="path-description">
+                    Evidence-based psychological techniques focusing on cognitive and behavioral interventions.
+                </div>
+                <div class="path-features">
+                    <h4>Core Techniques:</h4>
+                    <ul>
+                        <li>Cognitive Behavioral Therapy (CBT)</li>
+                        <li>Problem-solving strategies</li>
+                        <li>Behavioral activation</li>
+                        <li>Thought restructuring</li>
+                        <li>Goal-setting frameworks</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="path-card" onclick="selectPath('eastern')" data-path="eastern">
+                <div class="path-icon">🧘</div>
+                <div class="path-title">Eastern Approach</div>
+                <div class="path-subtitle">Mindfulness & Balance</div>
+                <div class="path-description">
+                    Traditional practices focusing on mindfulness, energy balance, and holistic wellbeing.
+                </div>
+                <div class="path-features">
+                    <h4>Core Techniques:</h4>
+                    <ul>
+                        <li>Meditation & mindfulness</li>
+                        <li>Breathing exercises (Pranayama)</li>
+                        <li>Yoga and movement</li>
+                        <li>Energy balancing</li>
+                        <li>Present-moment awareness</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="path-card" onclick="selectPath('hybrid')" data-path="hybrid">
+                <div class="path-icon">🌟</div>
+                <div class="path-title">Hybrid Approach</div>
+                <div class="path-subtitle">Best of Both Worlds</div>
+                <div class="path-description">
+                    Integrated approach combining evidence-based Western techniques with Eastern mindfulness practices.
+                </div>
+                <div class="path-features">
+                    <h4>Core Techniques:</h4>
+                    <ul>
+                        <li>Mindfulness-based CBT</li>
+                        <li>Guided meditation</li>
+                        <li>Structured breathing</li>
+                        <li>Balanced goal-setting</li>
+                        <li>Holistic problem-solving</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="detailedInfo" class="detailed-info">
+            <div id="pathContent">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-button secondary-button" onclick="goBack()">Back to Assessment</button>
+            <button class="action-button primary-button" id="confirmButton" onclick="confirmPath()" disabled>Confirm Selection</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedPath = null;
+        
+        const pathDetails = {
+            western: {
+                title: "Western Approach Details",
+                description: "The Western approach emphasizes evidence-based psychological techniques that have been scientifically validated. This path focuses on understanding thought patterns, changing behaviors, and developing practical coping strategies.",
+                philosophy: "Based on cognitive-behavioral principles, this approach views mental health challenges as patterns that can be identified, understood, and modified through structured techniques and practice.",
+                techniques: [
+                    { name: "Cognitive Restructuring", desc: "Identifying and changing negative thought patterns" },
+                    { name: "Behavioral Activation", desc: "Engaging in meaningful activities to improve mood" },
+                    { name: "Problem-Solving Therapy", desc: "Structured approach to addressing life challenges" },
+                    { name: "Goal Setting", desc: "SMART goals for mental health improvement" },
+                    { name: "Exposure Therapy", desc: "Gradual exposure to anxiety-provoking situations" },
+                    { name: "Sleep Hygiene", desc: "Science-based sleep improvement strategies" }
+                ],
+                idealFor: "People who prefer structured, logical approaches and appreciate scientific backing for mental health interventions."
+            },
+            eastern: {
+                title: "Eastern Approach Details",
+                description: "The Eastern approach emphasizes harmony, balance, and mindfulness. This path focuses on present-moment awareness, energy flow, and holistic wellbeing practices that have been used for thousands of years.",
+                philosophy: "Based on the understanding that mind, body, and spirit are interconnected. Mental wellness comes through balance, acceptance, and cultivating inner peace through regular practice.",
+                techniques: [
+                    { name: "Vipassana Meditation", desc: "Insight meditation for deep self-awareness" },
+                    { name: "Pranayama", desc: "Breathing techniques for energy and calm" },
+                    { name: "Mindful Movement", desc: "Yoga and Tai Chi for body-mind connection" },
+                    { name: "Loving-Kindness", desc: "Compassion practices for emotional healing" },
+                    { name: "Body Scanning", desc: "Awareness practices for physical tension" },
+                    { name: "Nature Connection", desc: "Grounding and earth-based practices" }
+                ],
+                idealFor: "People who resonate with holistic approaches, enjoy contemplative practices, and prefer gentle, non-forcing methods."
+            },
+            hybrid: {
+                title: "Hybrid Approach Details",
+                description: "The Hybrid approach thoughtfully combines the best of Western evidence-based techniques with Eastern mindfulness practices, creating a comprehensive and balanced wellness strategy.",
+                philosophy: "Recognizes that different techniques work for different people and situations. Combines the structure and practicality of Western approaches with the depth and balance of Eastern practices.",
+                techniques: [
+                    { name: "Mindful CBT", desc: "CBT techniques enhanced with mindfulness awareness" },
+                    { name: "Structured Meditation", desc: "Goal-oriented meditation with measurable outcomes" },
+                    { name: "Balanced Problem-Solving", desc: "Logical analysis combined with intuitive wisdom" },
+                    { name: "Mindful Goal Setting", desc: "Achievement-focused goals with present-moment awareness" },
+                    { name: "Scientific Breathing", desc: "Evidence-based breathing with traditional techniques" },
+                    { name: "Integrated Wellness", desc: "Holistic health combining multiple approaches" }
+                ],
+                idealFor: "People who want comprehensive support, enjoy variety in techniques, and appreciate both scientific and traditional wisdom."
+            }
+        };
+        
+        function selectPath(path) {
+            selectedPath = path;
+            
+            // Update visual selection
+            document.querySelectorAll('.path-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`[data-path="${path}"]`).classList.add('selected');
+            
+            // Show detailed information
+            showPathDetails(path);
+            
+            // Enable confirm button
+            document.getElementById('confirmButton').disabled = false;
+        }
+        
+        function showPathDetails(path) {
+            const details = pathDetails[path];
+            const contentDiv = document.getElementById('pathContent');
+            
+            contentDiv.innerHTML = `
+                <div class="info-section">
+                    <h3>${details.title}</h3>
+                    <p>${details.description}</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3>🎯 Philosophy</h3>
+                    <p>${details.philosophy}</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3>🛠️ Key Techniques You'll Learn</h3>
+                    <div class="techniques-grid">
+                        ${details.techniques.map(technique => `
+                            <div class="technique-item">
+                                <div class="technique-name">${technique.name}</div>
+                                <div class="technique-desc">${technique.desc}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h3>💡 Ideal For</h3>
+                    <p>${details.idealFor}</p>
+                </div>
+            `;
+            
+            document.getElementById('detailedInfo').classList.add('show');
+        }
+        
+        function confirmPath() {
+            if (!selectedPath) return;
+            
+            // Save path selection
+            const assessmentResults = JSON.parse(localStorage.getItem('assessmentResults') || '{}');
+            assessmentResults.selectedPath = selectedPath;
+            assessmentResults.pathSelectedAt = new Date().toISOString();
+            localStorage.setItem('assessmentResults', JSON.stringify(assessmentResults));
+            
+            // Save path details for personalization
+            const pathConfig = {
+                path: selectedPath,
+                details: pathDetails[selectedPath],
+                selectedAt: new Date().toISOString()
+            };
+            localStorage.setItem('userPath', JSON.stringify(pathConfig));
+            
+            // Update user path in database
+            updateUserPath(selectedPath);
+            
+            // Show confirmation and redirect
+            alert(`🎉 Perfect! You've selected the ${selectedPath.charAt(0).toUpperCase() + selectedPath.slice(1)} approach.\n\nYour AI companion and recommendations will now be personalized for this path.\n\nRedirecting to your dashboard...`);
+            
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 2000);
+        }
+        
+        async function updateUserPath(path) {
+            const userId = localStorage.getItem('userId');
+            if (!userId) return;
+            
+            try {
+                await fetch('/api/update-user-path', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        selectedPath: path,
+                        pathDetails: pathDetails[path]
+                    })
+                });
+            } catch (error) {
+                console.error('Error updating user path:', error);
+            }
+        }
+        
+        function goBack() {
+            window.location.href = '/assessment.html';
+        }
+        
+        // Check if user already has a path selected
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedPath = JSON.parse(localStorage.getItem('userPath') || '{}');
+            if (savedPath.path) {
+                selectPath(savedPath.path);
+            }
+        });
+    </script>
+</body>
+</html>

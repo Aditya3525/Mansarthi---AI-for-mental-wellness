@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initial Mental Health Check-in - Mindful AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .assessment-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        
+        .question-container {
+            margin-bottom: 30px;
+        }
+        
+        .question {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #fafafa;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
+        .nav-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .prev-button {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .prev-button:hover:not(:disabled) {
+            background: #e0e0e0;
+        }
+        
+        .next-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .next-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .results {
+            display: none;
+            text-align: center;
+        }
+        
+        .score-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .score-number {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .score-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .recommendation {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        .recommendation h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .path-selection {
+            margin: 25px 0;
+        }
+        
+        .path-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .path-option {
+            padding: 20px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            background: white;
+        }
+        
+        .path-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .path-option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .path-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .path-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .primary-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .secondary-button {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .assessment-container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            .path-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="assessment-container">
+        <div class="header">
+            <h1>🧠 Quick Mental Health Check-in</h1>
+            <p>This brief 5-question assessment helps us understand your current wellbeing and provide personalized recommendations. Takes less than 2 minutes.</p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div id="questionContainer" class="question-container">
+            <div class="question" id="questionText"></div>
+            <div class="options" id="optionsContainer"></div>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-button prev-button" id="prevButton" onclick="previousQuestion()" disabled>Previous</button>
+            <span id="questionCounter">1 of 5</span>
+            <button class="nav-button next-button" id="nextButton" onclick="nextQuestion()" disabled>Next</button>
+        </div>
+        
+        <div id="results" class="results">
+            <div class="score-display">
+                <div class="score-number" id="finalScore">0%</div>
+                <div class="score-label">Wellbeing Score</div>
+            </div>
+            
+            <div class="recommendation">
+                <h3>📋 Your Personalized Recommendation</h3>
+                <p id="recommendationText"></p>
+            </div>
+            
+            <div class="path-selection">
+                <h3>🌱 Choose Your Wellness Approach</h3>
+                <p style="margin-bottom: 15px; color: #666;">Select the approach that resonates most with you:</p>
+                
+                <div class="path-options">
+                    <div class="path-option" onclick="selectPath('western')" data-path="western">
+                        <div class="path-icon">🧠</div>
+                        <div class="path-name">Western</div>
+                        <div style="font-size: 12px; margin-top: 5px;">CBT, Therapy</div>
+                    </div>
+                    <div class="path-option" onclick="selectPath('eastern')" data-path="eastern">
+                        <div class="path-icon">🧘</div>
+                        <div class="path-name">Eastern</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Mindfulness, Meditation</div>
+                    </div>
+                    <div class="path-option" onclick="selectPath('hybrid')" data-path="hybrid">
+                        <div class="path-icon">🌟</div>
+                        <div class="path-name">Hybrid</div>
+                        <div style="font-size: 12px; margin-top: 5px;">Best of Both</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="/multimodal-chatbot" class="action-button primary-button">Start AI Conversation</a>
+                <a href="/specialized-tests" class="action-button secondary-button">Take Specialized Tests</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simplified 5-question assessment
+        const questions = [
+            {
+                question: "How have you been feeling emotionally over the past week?",
+                options: [
+                    { text: "Great - positive and balanced", value: 0 },
+                    { text: "Good - mostly positive with minor concerns", value: 1 },
+                    { text: "Fair - ups and downs, some challenges", value: 2 },
+                    { text: "Difficult - struggling with negative emotions", value: 3 }
+                ]
+            },
+            {
+                question: "How well are you sleeping lately?",
+                options: [
+                    { text: "Very well - restful and consistent", value: 0 },
+                    { text: "Pretty well - minor sleep issues", value: 1 },
+                    { text: "Not great - frequent sleep problems", value: 2 },
+                    { text: "Poorly - significant sleep difficulties", value: 3 }
+                ]
+            },
+            {
+                question: "How are your stress levels?",
+                options: [
+                    { text: "Low - manageable daily stress", value: 0 },
+                    { text: "Moderate - some stressful situations", value: 1 },
+                    { text: "High - frequently feeling overwhelmed", value: 2 },
+                    { text: "Very high - constant stress and pressure", value: 3 }
+                ]
+            },
+            {
+                question: "How connected do you feel to others?",
+                options: [
+                    { text: "Very connected - strong support system", value: 0 },
+                    { text: "Mostly connected - good relationships", value: 1 },
+                    { text: "Somewhat isolated - limited social support", value: 2 },
+                    { text: "Very isolated - feeling alone or disconnected", value: 3 }
+                ]
+            },
+            {
+                question: "How satisfied are you with your daily activities?",
+                options: [
+                    { text: "Very satisfied - engaged and motivated", value: 0 },
+                    { text: "Mostly satisfied - generally positive", value: 1 },
+                    { text: "Somewhat unsatisfied - lacking engagement", value: 2 },
+                    { text: "Very unsatisfied - feeling unmotivated", value: 3 }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+        let selectedPath = null;
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.textContent = option.text;
+                optionDiv.onclick = () => selectOption(index, option.value);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            // Update progress
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('questionCounter').textContent = `${currentQuestion + 1} of ${questions.length}`;
+            
+            // Update navigation buttons
+            document.getElementById('prevButton').disabled = currentQuestion === 0;
+            document.getElementById('nextButton').disabled = true;
+        }
+
+        function selectOption(optionIndex, value) {
+            // Remove previous selection
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selection to clicked option
+            document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+            
+            // Store answer
+            answers[currentQuestion] = value;
+            
+            // Enable next button
+            document.getElementById('nextButton').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+                
+                // Re-select previous answer if exists
+                if (answers[currentQuestion] !== undefined) {
+                    const question = questions[currentQuestion];
+                    const selectedValue = answers[currentQuestion];
+                    const optionIndex = question.options.findIndex(opt => opt.value === selectedValue);
+                    if (optionIndex !== -1) {
+                        document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+                        document.getElementById('nextButton').disabled = false;
+                    }
+                }
+            }
+        }
+
+        function selectPath(path) {
+            selectedPath = path;
+            document.querySelectorAll('.path-option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelector(`[data-path="${path}"]`).classList.add('selected');
+        }
+
+        function showResults() {
+            document.getElementById('questionContainer').style.display = 'none';
+            document.querySelector('.navigation').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            // Calculate score (lower is better)
+            const totalScore = answers.reduce((sum, answer) => sum + answer, 0);
+            const maxScore = questions.length * 3; // Max 3 points per question
+            const scorePercentage = Math.round((totalScore / maxScore) * 100);
+            
+            document.getElementById('finalScore').textContent = (100 - scorePercentage) + '%';
+            
+            let recommendation = '';
+            if (scorePercentage <= 25) {
+                recommendation = "Excellent! You're showing strong mental wellness. Focus on maintaining your positive habits and consider exploring our resources to further enhance your wellbeing.";
+            } else if (scorePercentage <= 50) {
+                recommendation = "Good overall wellness with some areas for growth. Our AI companion can help you develop personalized strategies to address specific concerns.";
+            } else if (scorePercentage <= 75) {
+                recommendation = "You're facing some challenges that could benefit from focused attention. Consider regular check-ins with our AI companion and exploring targeted wellness practices.";
+            } else {
+                recommendation = "You may be experiencing significant challenges. We recommend starting with our AI companion for immediate support and considering professional help if concerns persist.";
+            }
+            
+            document.getElementById('recommendationText').textContent = recommendation;
+            
+            // Save results
+            const assessmentResults = {
+                score: 100 - scorePercentage,
+                rawScore: totalScore,
+                maxScore: maxScore,
+                answers: answers,
+                recommendation: recommendation,
+                selectedPath: null, // Will be updated when path is selected
+                completedAt: new Date().toISOString(),
+                type: 'periodic_checkin'
+            };
+            
+            localStorage.setItem('assessmentResults', JSON.stringify(assessmentResults));
+            
+            // Add to assessment history
+            let assessmentHistory = JSON.parse(localStorage.getItem('assessmentHistory') || '[]');
+            assessmentHistory.push({
+                score: 100 - scorePercentage,
+                date: new Date().toISOString(),
+                recommendation: recommendation,
+                type: 'periodic_checkin',
+                answers: answers
+            });
+            localStorage.setItem('assessmentHistory', JSON.stringify(assessmentHistory));
+            
+            // Save to database
+            saveAssessmentToDatabase(assessmentResults);
+        }
+
+        async function saveAssessmentToDatabase(assessmentResults) {
+            const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+            
+            try {
+                const response = await fetch('/api/save-assessment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userInfo: userInfo,
+                        assessmentResults: assessmentResults
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    localStorage.setItem('userId', data.userId);
+                }
+            } catch (error) {
+                console.error('Error saving assessment:', error);
+            }
+        }
+
+        // Initialize
+        displayQuestion();
+        
+        // Handle path selection updates
+        window.addEventListener('beforeunload', function() {
+            if (selectedPath) {
+                const results = JSON.parse(localStorage.getItem('assessmentResults') || '{}');
+                results.selectedPath = selectedPath;
+                localStorage.setItem('assessmentResults', JSON.stringify(results));
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Mental Wellbeing AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            min-height: 600px;
+            display: flex;
+            position: relative;
+        }
+        
+        .welcome-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            flex: 1;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-section h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .welcome-section p {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .features-list {
+            list-style: none;
+            text-align: left;
+        }
+        
+        .features-list li {
+            margin: 10px 0;
+            color: #555;
+            font-size: 16px;
+        }
+        
+        .features-list li::before {
+            content: '✨';
+            margin-right: 10px;
+        }
+        
+        .form-section {
+            flex: 1;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .form-toggle {
+            display: flex;
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .toggle-btn {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+        
+        .toggle-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .password-field {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .form-footer {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .social-login {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5e9;
+        }
+        
+        .social-btn {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            background: white;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+        
+        .social-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        
+        .error-message {
+            background: #ffe6e6;
+            color: #d63384;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success-message {
+            background: #e6f4ea;
+            color: #198754;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .welcome-section {
+                padding: 40px 20px;
+            }
+            
+            .welcome-section h1 {
+                font-size: 36px;
+            }
+            
+            .form-section {
+                padding: 40px 20px;
+            }
+        }
+        
+        .strength-meter {
+            height: 4px;
+            background: #e1e5e9;
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .strength-weak { background: #dc3545; width: 25%; }
+        .strength-fair { background: #fd7e14; width: 50%; }
+        .strength-good { background: #20c997; width: 75%; }
+        .strength-strong { background: #198754; width: 100%; }
+        
+        .requirements {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .requirement {
+            display: block;
+            margin: 2px 0;
+        }
+        
+        .requirement.met {
+            color: #198754;
+        }
+        
+        .requirement.met::before {
+            content: '✓ ';
+        }
+        
+        .requirement:not(.met)::before {
+            content: '○ ';
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1>🌟 Welcome</h1>
+                <p>Join thousands of users on their journey to better mental wellbeing with our AI-powered platform.</p>
+                <ul class="features-list">
+                    <li>Personalized mental health assessments</li>
+                    <li>AI-powered therapy chatbot</li>
+                    <li>Progress tracking and insights</li>
+                    <li>Community support network</li>
+                    <li>Crisis support resources</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <div class="form-container">
+                <div class="form-toggle">
+                    <button class="toggle-btn active" id="loginToggle">Sign In</button>
+                    <button class="toggle-btn" id="registerToggle">Sign Up</button>
+                </div>
+                
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+                
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="password-field">
+                            <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">👁️</button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="loginBtn">
+                        <span class="btn-text">Sign In</span>
+                    </button>
+                    
+                    <div class="form-footer">
+                        <a href="#" onclick="forgotPassword()">Forgot your password?</a>
+                    </div>
+                </form>
+                
+                <!-- Registration Form -->
+                <form id="registerForm" class="auth-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerEmail">Email Address</label>
+                        <input type="email" id="registerEmail" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <div class="password-field">
+                            <input type="password" id="registerPassword" class="form-input" placeholder="Create a password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">👁️</button>
+                        </div>
+                        <div class="strength-meter">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <div class="requirements" id="requirements">
+                            <span class="requirement" id="req-length">At least 8 characters</span>
+                            <span class="requirement" id="req-uppercase">One uppercase letter</span>
+                            <span class="requirement" id="req-lowercase">One lowercase letter</span>
+                            <span class="requirement" id="req-number">One number</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="password-field">
+                            <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">👁️</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" class="form-input" placeholder="Enter your age" min="13" max="120" required>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="registerBtn">
+                        <span class="btn-text">Create Account</span>
+                    </button>
+                    
+                    <div class="form-footer">
+                        By signing up, you agree to our <a href="/privacy-policy.html">Privacy Policy</a> and Terms of Service.
+                    </div>
+                </form>
+                
+                <!-- Social Login Options -->
+                <div class="social-login">
+                    <button class="social-btn" onclick="socialLogin('google')">
+                        <span>🔍</span> Continue with Google
+                    </button>
+                    <button class="social-btn" onclick="socialLogin('microsoft')">
+                        <span>🪟</span> Continue with Microsoft
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Resolve API base to handle file:// or alternate ports during local dev
+        const API_BASE = (function() {
+            try {
+                const origin = window.location.origin;
+                if (origin && origin.startsWith('http')) return origin;
+            } catch (e) {}
+            return 'http://localhost:3000';
+        })();
+
+    // Form toggle functionality
+        const loginToggle = document.getElementById('loginToggle');
+        const registerToggle = document.getElementById('registerToggle');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        
+        loginToggle.addEventListener('click', () => {
+            loginToggle.classList.add('active');
+            registerToggle.classList.remove('active');
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            clearMessages();
+        });
+        
+        registerToggle.addEventListener('click', () => {
+            registerToggle.classList.add('active');
+            loginToggle.classList.remove('active');
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            clearMessages();
+        });
+
+        // If URL has #signup, open registration tab by default
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash === '#signup') {
+                registerToggle.click();
+            }
+        });
+        
+        // Password strength checker
+        const registerPassword = document.getElementById('registerPassword');
+        const strengthFill = document.getElementById('strengthFill');
+        const requirements = document.getElementById('requirements');
+        
+        registerPassword.addEventListener('input', checkPasswordStrength);
+        
+        function checkPasswordStrength() {
+            const password = registerPassword.value;
+            const requirements = {
+                length: password.length >= 8,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                number: /\d/.test(password)
+            };
+            
+            // Update requirement indicators
+            document.getElementById('req-length').classList.toggle('met', requirements.length);
+            document.getElementById('req-uppercase').classList.toggle('met', requirements.uppercase);
+            document.getElementById('req-lowercase').classList.toggle('met', requirements.lowercase);
+            document.getElementById('req-number').classList.toggle('met', requirements.number);
+            
+            // Calculate strength
+            const metCount = Object.values(requirements).filter(Boolean).length;
+            const strength = ['', 'strength-weak', 'strength-fair', 'strength-good', 'strength-strong'][metCount];
+            
+            strengthFill.className = 'strength-fill ' + strength;
+        }
+        
+        // Password visibility toggle
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const toggle = field.nextElementSibling;
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                toggle.textContent = '🙈';
+            } else {
+                field.type = 'password';
+                toggle.textContent = '👁️';
+            }
+        }
+        
+        // Form submission handlers
+        loginForm.addEventListener('submit', handleLogin);
+        registerForm.addEventListener('submit', handleRegister);
+        
+        async function handleLogin(e) {
+            e.preventDefault();
+            const loginBtn = document.getElementById('loginBtn');
+            const btnText = loginBtn.querySelector('.btn-text');
+            
+            try {
+                // Show loading state
+                btnText.innerHTML = '<span class="loading"></span>';
+                loginBtn.disabled = true;
+                
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Here you would normally make an API call to your server
+                const response = await fetch(`${API_BASE}/api/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Store user info
+                    localStorage.setItem('userInfo', JSON.stringify({
+                        id: data.user.id,
+                        name: data.user.name,
+                        email: data.user.email,
+                        loginTime: new Date().toISOString()
+                    }));
+                    // store userId separately for convenience
+                    localStorage.setItem('userId', data.user.id);
+                    
+                    showSuccess('Login successful! Redirecting to dashboard...');
+                    
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = `${API_BASE}/dashboard`;
+                    }, 1500);
+                } else {
+                    const error = await response.json();
+                    showError(error.message || 'Invalid email or password');
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('Login failed. Please try again.');
+            } finally {
+                btnText.textContent = 'Sign In';
+                loginBtn.disabled = false;
+            }
+        }
+        
+        async function handleRegister(e) {
+            e.preventDefault();
+            const registerBtn = document.getElementById('registerBtn');
+            const btnText = registerBtn.querySelector('.btn-text');
+            
+            try {
+                // Validate form
+                if (!validateRegistrationForm()) {
+                    return;
+                }
+                
+                // Show loading state
+                btnText.innerHTML = '<span class="loading"></span>';
+                registerBtn.disabled = true;
+                
+                const formData = {
+                    name: document.getElementById('registerName').value,
+                    email: document.getElementById('registerEmail').value,
+                    password: document.getElementById('registerPassword').value,
+                    age: document.getElementById('age').value
+                };
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Here you would normally make an API call to your server
+                const response = await fetch(`${API_BASE}/api/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showSuccess('Account created successfully! Please check your email for verification.');
+                    
+                    // Switch to login form after delay
+                    setTimeout(() => {
+                        loginToggle.click();
+                        document.getElementById('loginEmail').value = formData.email;
+                    }, 2000);
+                } else {
+                    const error = await response.json();
+                    showError(error.message || 'Registration failed');
+                }
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                showError('Registration failed. Please try again.');
+            } finally {
+                btnText.textContent = 'Create Account';
+                registerBtn.disabled = false;
+            }
+        }
+        
+        function validateRegistrationForm() {
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const age = document.getElementById('age').value;
+            
+            // Check password match
+            if (password !== confirmPassword) {
+                showError('Passwords do not match');
+                return false;
+            }
+            
+            // Check password strength
+            const requirements = {
+                length: password.length >= 8,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                number: /\d/.test(password)
+            };
+            
+            if (!Object.values(requirements).every(Boolean)) {
+                showError('Password does not meet all requirements');
+                return false;
+            }
+            
+            // Check age
+            if (age < 13) {
+                showError('You must be at least 13 years old to register');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Social login handlers
+        function socialLogin(provider) {
+            showError(`${provider} login coming soon! Please use email registration for now.`);
+        }
+        
+        // Forgot password handler
+        function forgotPassword() {
+            const email = prompt('Please enter your email address:');
+            if (email && validateEmail(email)) {
+                showSuccess('Password reset instructions sent to your email!');
+            } else if (email) {
+                showError('Please enter a valid email address');
+            }
+        }
+        
+        // Utility functions
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            
+            successDiv.style.display = 'none';
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        function showSuccess(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            
+            errorDiv.style.display = 'none';
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 5000);
+        }
+        
+        function clearMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInfo = localStorage.getItem('userInfo');
+            if (userInfo) {
+                // User is already logged in, redirect to dashboard
+                window.location.href = '/dashboard';
+            }
+        });
+    </script>
+</body>
+</html>

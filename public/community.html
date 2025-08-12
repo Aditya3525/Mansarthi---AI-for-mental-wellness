@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Support - Mindful AI Ecosystem</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-info h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .header-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            padding: 8px 16px;
+            background: #f0f0f0;
+            color: #666;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr 280px;
+            gap: 20px;
+        }
+        
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .community-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .community-item {
+            padding: 12px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: white;
+        }
+        
+        .community-item:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .community-item.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .community-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .community-meta {
+            font-size: 11px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .user-status {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        
+        .status-label {
+            color: #666;
+        }
+        
+        .status-value {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .content-header {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .content-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .content-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .action-btn.primary {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .action-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .action-btn.primary:hover {
+            background: #5a6fd8;
+        }
+        
+        .content-area {
+            padding: 20px;
+            min-height: 500px;
+        }
+        
+        .welcome-screen {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .welcome-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .welcome-text {
+            color: #666;
+            line-height: 1.6;
+            max-width: 400px;
+            margin: 0 auto 30px;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .quick-action {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .community-feed {
+            display: none;
+        }
+        
+        .community-feed.active {
+            display: block;
+        }
+        
+        .feed-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .post-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .post-item {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .author-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .post-time {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .post-category {
+            background: #e8f5e8;
+            color: #4CAF50;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        
+        .post-content {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            cursor: pointer;
+            font-size: 12px;
+            transition: color 0.2s ease;
+        }
+        
+        .post-action:hover {
+            color: #667eea;
+        }
+        
+        .post-action.liked {
+            color: #f44336;
+        }
+        
+        .group-sessions {
+            display: none;
+        }
+        
+        .group-sessions.active {
+            display: block;
+        }
+        
+        .sessions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .session-card {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .session-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .session-status {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .session-status.upcoming {
+            background: #FF9800;
+        }
+        
+        .session-status.in-progress {
+            background: #2196F3;
+        }
+        
+        .session-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .session-details {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .session-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .session-time {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .session-participants {
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .session-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .session-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .session-btn.join {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+        
+        .session-btn.info {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .session-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .activity-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+        
+        .activity-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .activity-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .activity-item {
+            padding: 12px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .activity-text {
+            font-size: 12px;
+            color: #333;
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+        
+        .activity-time {
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .online-users {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .online-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .online-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .online-user {
+            background: white;
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            color: #4CAF50;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .online-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4CAF50;
+        }
+        
+        .create-post-area {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px dashed #e0e0e0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .create-post-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .create-post-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .create-post-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .create-post-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .sidebar, .activity-panel {
+                order: 2;
+            }
+            
+            .main-content {
+                order: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .sessions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+    <script src="/config/errorHandler.js"></script>
+    <script src="/config/metaManager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pageName = window.location.pathname.replace('/', '') || 'community';
+            window.metaManager.setPageMeta(window.metaManager.getPageMeta(pageName));
+            setTimeout(() => {
+                if (Math.random() < 0.3) {
+                    window.errorHandler.showFeedbackWidget();
+                }
+            }, 30000);
+        });
+    </script>
+            <div class="header-info">
+                <h1>🤝 Community Support</h1>
+                <p>Connect with others on similar wellness journeys</p>
+            </div>
+            <div class="nav-buttons">
+                <a href="/dashboard" class="nav-btn">🏠 Dashboard</a>
+                <a href="/community" class="nav-btn active">🤝 Community</a>
+                <a href="/multimodal-chatbot" class="nav-btn">🧠 AI Companion</a>
+                <a href="/daily-practice" class="nav-btn">🌱 Practice</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">🏷️ Communities</div>
+                <div class="community-list">
+                    <div class="community-item active" onclick="showCommunityFeed('general')">
+                        <div class="community-name">General Support</div>
+                        <div class="community-meta">
+                            <span>245 members</span>
+                            <span>🟢 12 online</span>
+                        </div>
+                    </div>
+                    <div class="community-item" onclick="showCommunityFeed('anxiety')">
+                        <div class="community-name">Anxiety Support</div>
+                        <div class="community-meta">
+                            <span>189 members</span>
+                            <span>🟢 8 online</span>
+                        </div>
+                    </div>
+                    <div class="community-item" onclick="showCommunityFeed('depression')">
+                        <div class="community-name">Depression Support</div>
+                        <div class="community-meta">
+                            <span>156 members</span>
+                            <span>🟢 5 online</span>
+                        </div>
+                    </div>
+                    <div class="community-item" onclick="showCommunityFeed('meditation')">
+                        <div class="community-name">Meditation & Mindfulness</div>
+                        <div class="community-meta">
+                            <span>298 members</span>
+                            <span>🟢 15 online</span>
+                        </div>
+                    </div>
+                    <div class="community-item" onclick="showCommunityFeed('recovery')">
+                        <div class="community-name">Recovery Journey</div>
+                        <div class="community-meta">
+                            <span>134 members</span>
+                            <span>🟢 6 online</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">📊 Your Status</div>
+                <div class="user-status">
+                    <div class="status-item">
+                        <span class="status-label">Member Since:</span>
+                        <span class="status-value">2025-08-10</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Posts:</span>
+                        <span class="status-value">12</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Helpful Votes:</span>
+                        <span class="status-value">34</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Sessions Joined:</span>
+                        <span class="status-value">8</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <div class="content-title" id="contentTitle">Welcome to Community Support</div>
+                <div class="content-actions">
+                    <button class="action-btn" onclick="showView('feed')">📝 Community Feed</button>
+                    <button class="action-btn" onclick="showView('sessions')">🎯 Group Sessions</button>
+                    <button class="action-btn primary" onclick="createPost()">✍️ New Post</button>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- Welcome Screen -->
+                <div id="welcomeScreen" class="welcome-screen">
+                    <div class="welcome-icon">🤝</div>
+                    <div class="welcome-title">Welcome to Your Support Community</div>
+                    <div class="welcome-text">
+                        Connect with others who understand your journey. Share experiences, find support, and participate in guided group sessions led by AI facilitators.
+                    </div>
+                    <div class="quick-actions">
+                        <div class="quick-action" onclick="showView('feed')">
+                            📝 Browse Community Posts
+                        </div>
+                        <div class="quick-action" onclick="showView('sessions')">
+                            🎯 Join Group Session
+                        </div>
+                        <div class="quick-action" onclick="createPost()">
+                            ✍️ Share Your Experience
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Feed -->
+                <div id="communityFeed" class="community-feed">
+                    <div class="create-post-area" onclick="createPost()">
+                        <div class="create-post-text">Share your thoughts, experiences, or ask for support...</div>
+                        <button class="create-post-btn">Create Post</button>
+                    </div>
+
+                    <div class="feed-filters">
+                        <button class="filter-btn active" onclick="filterPosts('all')">All Posts</button>
+                        <button class="filter-btn" onclick="filterPosts('support')">Support Requests</button>
+                        <button class="filter-btn" onclick="filterPosts('victory')">Victories</button>
+                        <button class="filter-btn" onclick="filterPosts('question')">Questions</button>
+                        <button class="filter-btn" onclick="filterPosts('resource')">Resources</button>
+                    </div>
+
+                    <div class="post-list" id="postList">
+                        <!-- Posts will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Group Sessions -->
+                <div id="groupSessions" class="group-sessions">
+                    <div class="sessions-grid" id="sessionsGrid">
+                        <!-- Sessions will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Activity Panel -->
+        <div class="activity-panel">
+            <div class="online-users">
+                <div class="online-title">🟢 Online Now</div>
+                <div class="online-list">
+                    <div class="online-user">
+                        <div class="online-indicator"></div>
+                        Sarah M.
+                    </div>
+                    <div class="online-user">
+                        <div class="online-indicator"></div>
+                        Alex R.
+                    </div>
+                    <div class="online-user">
+                        <div class="online-indicator"></div>
+                        Jordan K.
+                    </div>
+                    <div class="online-user">
+                        <div class="online-indicator"></div>
+                        You
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-title">📈 Recent Activity</div>
+            <div class="activity-feed" id="activityFeed">
+                <!-- Activity will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const communityPosts = {
+            general: [
+                {
+                    id: 1,
+                    author: "Sarah M.",
+                    avatar: "SM",
+                    time: "2 hours ago",
+                    category: "support",
+                    content: "Having a tough day with anxiety. The breathing exercises from yesterday's session really helped though. Sometimes it's the small victories that count! 💙",
+                    likes: 12,
+                    comments: 5,
+                    helpful: 8
+                },
+                {
+                    id: 2,
+                    author: "Alex R.",
+                    avatar: "AR",
+                    time: "4 hours ago",
+                    category: "victory",
+                    content: "30 days of consistent meditation practice! 🎉 Started with just 5 minutes and now doing 20 minutes daily. The community support here has been incredible.",
+                    likes: 23,
+                    comments: 9,
+                    helpful: 15
+                },
+                {
+                    id: 3,
+                    author: "Jordan K.",
+                    avatar: "JK",
+                    time: "6 hours ago",
+                    category: "question",
+                    content: "What's your favorite grounding technique when feeling overwhelmed? I've tried the 5-4-3-2-1 method but looking for other options.",
+                    likes: 8,
+                    comments: 12,
+                    helpful: 6
+                }
+            ],
+            anxiety: [
+                {
+                    id: 4,
+                    author: "Maya L.",
+                    avatar: "ML",
+                    time: "1 hour ago",
+                    category: "support",
+                    content: "Panic attack at work today. Managed to use the box breathing technique and got through it. Grateful for this community and the coping tools we share.",
+                    likes: 15,
+                    comments: 7,
+                    helpful: 12
+                }
+            ]
+        };
+
+        const groupSessions = [
+            {
+                id: 1,
+                title: "Morning Mindfulness Circle",
+                facilitator: "AI Guide Luna",
+                time: "Today 9:00 AM UTC",
+                duration: "30 minutes",
+                participants: 8,
+                maxParticipants: 12,
+                status: "upcoming",
+                description: "Start your day with guided mindfulness meditation and gentle intention setting.",
+                type: "meditation"
+            },
+            {
+                id: 2,
+                title: "Anxiety Support Group",
+                facilitator: "AI Counselor Sage",
+                time: "Today 2:00 PM UTC",
+                duration: "45 minutes", 
+                participants: 6,
+                maxParticipants: 10,
+                status: "in-progress",
+                description: "Safe space to share anxiety experiences and learn coping strategies together.",
+                type: "support"
+            },
+            {
+                id: 3,
+                title: "Evening Gratitude Practice",
+                facilitator: "AI Guide Harmony",
+                time: "Today 7:00 PM UTC",
+                duration: "25 minutes",
+                participants: 12,
+                maxParticipants: 15,
+                status: "upcoming",
+                description: "End your day by sharing gratitude and positive reflections with the community.",
+                type: "gratitude"
+            },
+            {
+                id: 4,
+                title: "CBT Skills Workshop",
+                facilitator: "AI Therapist Logic",
+                time: "Tomorrow 11:00 AM UTC",
+                duration: "60 minutes",
+                participants: 4,
+                maxParticipants: 8,
+                status: "upcoming",
+                description: "Learn and practice cognitive behavioral therapy techniques in a supportive group setting.",
+                type: "skills"
+            }
+        ];
+
+        const recentActivity = [
+            "Sarah M. joined Anxiety Support Group",
+            "Alex R. completed 30-day meditation streak",
+            "Jordan K. posted in General Support",
+            "Maya L. found Alex's post helpful",
+            "New member Lisa joined the community",
+            "Evening session had 15 participants",
+            "Weekly check-in posts are trending"
+        ];
+
+        let currentView = 'welcome';
+        let currentCommunity = 'general';
+        let currentFilter = 'all';
+
+        function showView(view) {
+            // Hide all views
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('communityFeed').classList.remove('active');
+            document.getElementById('groupSessions').classList.remove('active');
+
+            // Show selected view
+            currentView = view;
+            
+            switch (view) {
+                case 'feed':
+                    document.getElementById('communityFeed').classList.add('active');
+                    document.getElementById('contentTitle').textContent = 'Community Feed';
+                    loadCommunityPosts();
+                    break;
+                case 'sessions':
+                    document.getElementById('groupSessions').classList.add('active');
+                    document.getElementById('contentTitle').textContent = 'Group Sessions';
+                    loadGroupSessions();
+                    break;
+                default:
+                    document.getElementById('welcomeScreen').style.display = 'block';
+                    document.getElementById('contentTitle').textContent = 'Welcome to Community Support';
+            }
+        }
+
+        function showCommunityFeed(community) {
+            // Update active community
+            document.querySelectorAll('.community-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.community-item').classList.add('active');
+            
+            currentCommunity = community;
+            
+            if (currentView === 'feed') {
+                loadCommunityPosts();
+            } else {
+                showView('feed');
+            }
+        }
+
+        function loadCommunityPosts() {
+            const postList = document.getElementById('postList');
+            const posts = communityPosts[currentCommunity] || communityPosts.general;
+            
+            postList.innerHTML = '';
+            
+            posts.forEach(post => {
+                if (currentFilter === 'all' || post.category === currentFilter) {
+                    const postElement = createPostElement(post);
+                    postList.appendChild(postElement);
+                }
+            });
+        }
+
+        function createPostElement(post) {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post-item';
+            
+            postDiv.innerHTML = `
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="author-avatar">${post.avatar}</div>
+                        <div class="author-info">
+                            <div class="author-name">${post.author}</div>
+                            <div class="post-time">${post.time}</div>
+                        </div>
+                    </div>
+                    <div class="post-category">${post.category}</div>
+                </div>
+                <div class="post-content">${post.content}</div>
+                <div class="post-actions">
+                    <div class="post-action" onclick="toggleLike(${post.id})">
+                        <span>💙</span>
+                        <span>${post.likes}</span>
+                    </div>
+                    <div class="post-action" onclick="showComments(${post.id})">
+                        <span>💬</span>
+                        <span>${post.comments}</span>
+                    </div>
+                    <div class="post-action" onclick="markHelpful(${post.id})">
+                        <span>👍</span>
+                        <span>${post.helpful} helpful</span>
+                    </div>
+                    <div class="post-action" onclick="sharePost(${post.id})">
+                        <span>📤</span>
+                        <span>Share</span>
+                    </div>
+                </div>
+            `;
+            
+            return postDiv;
+        }
+
+        function loadGroupSessions() {
+            const sessionsGrid = document.getElementById('sessionsGrid');
+            sessionsGrid.innerHTML = '';
+            
+            groupSessions.forEach(session => {
+                const sessionElement = createSessionElement(session);
+                sessionsGrid.appendChild(sessionElement);
+            });
+        }
+
+        function createSessionElement(session) {
+            const sessionDiv = document.createElement('div');
+            sessionDiv.className = 'session-card';
+            
+            const statusClass = session.status === 'upcoming' ? 'upcoming' : 
+                               session.status === 'in-progress' ? 'in-progress' : '';
+            
+            sessionDiv.innerHTML = `
+                <div class="session-status ${statusClass}">${session.status.replace('-', ' ').toUpperCase()}</div>
+                <div class="session-title">${session.title}</div>
+                <div class="session-details">
+                    Facilitated by ${session.facilitator}<br>
+                    ${session.description}
+                </div>
+                <div class="session-meta">
+                    <div class="session-time">⏰ ${session.time} (${session.duration})</div>
+                    <div class="session-participants">👥 ${session.participants}/${session.maxParticipants}</div>
+                </div>
+                <div class="session-actions">
+                    <button class="session-btn join" onclick="joinSession(${session.id})">
+                        ${session.status === 'in-progress' ? 'Join Now' : 'Reserve Spot'}
+                    </button>
+                    <button class="session-btn info" onclick="sessionInfo(${session.id})">Details</button>
+                </div>
+            `;
+            
+            return sessionDiv;
+        }
+
+        function loadRecentActivity() {
+            const activityFeed = document.getElementById('activityFeed');
+            activityFeed.innerHTML = '';
+            
+            recentActivity.slice(0, 7).forEach((activity, index) => {
+                const activityDiv = document.createElement('div');
+                activityDiv.className = 'activity-item';
+                
+                const timeAgo = ['just now', '5 min ago', '15 min ago', '1 hour ago', '2 hours ago', '3 hours ago', '5 hours ago'][index];
+                
+                activityDiv.innerHTML = `
+                    <div class="activity-text">${activity}</div>
+                    <div class="activity-time">${timeAgo}</div>
+                `;
+                
+                activityFeed.appendChild(activityDiv);
+            });
+        }
+
+        function filterPosts(filter) {
+            currentFilter = filter;
+            
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            loadCommunityPosts();
+        }
+
+        function createPost() {
+            const content = prompt('Share your thoughts, experiences, or ask for support:\n\n(In a real app, this would be a proper form)');
+            
+            if (content && content.trim()) {
+                const newPost = {
+                    id: Date.now(),
+                    author: "Aditya3525",
+                    avatar: "AD",
+                    time: "just now",
+                    category: "support",
+                    content: content.trim(),
+                    likes: 0,
+                    comments: 0,
+                    helpful: 0
+                };
+                
+                if (!communityPosts[currentCommunity]) {
+                    communityPosts[currentCommunity] = [];
+                }
+                
+                communityPosts[currentCommunity].unshift(newPost);
+                
+                if (currentView === 'feed') {
+                    loadCommunityPosts();
+                }
+                
+                alert('Your post has been shared with the community! 💙');
+            }
+        }
+
+        function joinSession(sessionId) {
+            const session = groupSessions.find(s => s.id === sessionId);
+            
+            if (session.status === 'in-progress') {
+                alert(`🎯 Joining "${session.title}" now!\n\nYou would be redirected to the live session interface.\n\nSession Features:\n• AI-facilitated group discussion\n• Real-time emotional support\n• Guided activities and exercises\n• Anonymous participation option`);
+            } else {
+                alert(`✅ Spot reserved for "${session.title}"!\n\nYou'll receive a reminder 15 minutes before the session starts.\n\nSession Details:\n• Time: ${session.time}\n• Duration: ${session.duration}\n• Current participants: ${session.participants + 1}/${session.maxParticipants}`);
+                
+                // Update participant count
+                session.participants++;
+            }
+        }
+
+        function sessionInfo(sessionId) {
+            const session = groupSessions.find(s => s.id === sessionId);
+            
+            alert(`📋 Session Information\n\nTitle: ${session.title}\nFacilitator: ${session.facilitator}\nTime: ${session.time}\nDuration: ${session.duration}\nParticipants: ${session.participants}/${session.maxParticipants}\n\nDescription: ${session.description}\n\nThis session uses AI-guided facilitation with:\n• Structured discussion prompts\n• Emotional intelligence monitoring\n• Personalized coping suggestions\n• Safe space guidelines enforcement`);
+        }
+
+        function toggleLike(postId) {
+            // Simulate liking a post
+            const posts = communityPosts[currentCommunity];
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.likes++;
+                loadCommunityPosts();
+            }
+        }
+
+        function markHelpful(postId) {
+            // Simulate marking as helpful
+            const posts = communityPosts[currentCommunity];
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.helpful++;
+                loadCommunityPosts();
+            }
+        }
+
+        function showComments(postId) {
+            alert('💬 Comments feature would open here!\n\nThis would show:\n• Supportive responses from community\n• AI-moderated discussions\n• Helpful resource suggestions\n• Crisis intervention if needed');
+        }
+
+        function sharePost(postId) {
+            alert('📤 Post sharing options:\n\n• Share with specific support groups\n• Add to personal wellness journal\n• Send to trusted contacts\n• Create follow-up reminder');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRecentActivity();
+            
+            // Simulate real-time updates
+            setInterval(() => {
+                if (Math.random() < 0.3) { // 30% chance every 10 seconds
+                    const newActivity = [
+                        "Someone joined a support group",
+                        "New helpful post was shared",
+                        "Meditation session starting soon",
+                        "Community member achieved milestone"
+                    ][Math.floor(Math.random() * 4)];
+                    
+                    recentActivity.unshift(newActivity);
+                    if (recentActivity.length > 10) {
+                        recentActivity.pop();
+                    }
+                    loadRecentActivity();
+                }
+            }, 10000);
+        });
+    </script>
+</body>
+</html>

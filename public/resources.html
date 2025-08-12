@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Resources - Mental Wellbeing AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 40px 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .category-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .category-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .resource-list {
+            list-style: none;
+        }
+        
+        .resource-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .resource-item:hover {
+            color: #667eea;
+            padding-left: 10px;
+        }
+        
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .modal h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-right: 40px;
+        }
+        
+        .modal-text {
+            color: #555;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .header p {
+                font-size: 16px;
+            }
+            
+            .categories {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌱 Wellness Resources</h1>
+            <p>Comprehensive mental health resources to support your wellbeing journey</p>
+            
+            <div class="nav-buttons">
+                <a href="/" class="nav-btn">🏠 Home</a>
+                <a href="/chatbot" class="nav-btn">💬 AI Chat</a>
+                <a href="/assessment.html" class="nav-btn">📋 Assessment</a>
+            </div>
+        </div>
+        
+        <div class="categories">
+            <div class="category-card">
+                <div class="category-icon">🧘</div>
+                <div class="category-title">Meditation & Mindfulness</div>
+                <div class="category-description">
+                    Guided meditations and mindfulness exercises to help you find peace and reduce stress.
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item" onclick="openModal('5-Minute Breathing Meditation', 'meditation1')">5-Minute Breathing Meditation</li>
+                    <li class="resource-item" onclick="openModal('Body Scan Relaxation', 'meditation2')">Body Scan Relaxation</li>
+                    <li class="resource-item" onclick="openModal('Mindful Walking Exercise', 'meditation3')">Mindful Walking Exercise</li>
+                    <li class="resource-item" onclick="openModal('Stress Relief Meditation', 'meditation4')">Stress Relief Meditation</li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">💪</div>
+                <div class="category-title">Coping Strategies</div>
+                <div class="category-description">
+                    Practical techniques to manage difficult emotions and challenging situations.
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item" onclick="openModal('Managing Anxiety Attacks', 'coping1')">Managing Anxiety Attacks</li>
+                    <li class="resource-item" onclick="openModal('Dealing with Depression', 'coping2')">Dealing with Depression</li>
+                    <li class="resource-item" onclick="openModal('Stress Management Techniques', 'coping3')">Stress Management Techniques</li>
+                    <li class="resource-item" onclick="openModal('Building Resilience', 'coping4')">Building Resilience</li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">😴</div>
+                <div class="category-title">Sleep & Rest</div>
+                <div class="category-description">
+                    Improve your sleep quality and establish healthy rest patterns.
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item" onclick="openModal('Sleep Hygiene Guide', 'sleep1')">Sleep Hygiene Guide</li>
+                    <li class="resource-item" onclick="openModal('Bedtime Relaxation Routine', 'sleep2')">Bedtime Relaxation Routine</li>
+                    <li class="resource-item" onclick="openModal('Dealing with Insomnia', 'sleep3')">Dealing with Insomnia</li>
+                    <li class="resource-item" onclick="openModal('Power Nap Techniques', 'sleep4')">Power Nap Techniques</li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">🏃</div>
+                <div class="category-title">Physical Wellness</div>
+                <div class="category-description">
+                    Connect your physical and mental health through movement and nutrition.
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item" onclick="openModal('Exercise for Mental Health', 'physical1')">Exercise for Mental Health</li>
+                    <li class="resource-item" onclick="openModal('Nutrition and Mood', 'physical2')">Nutrition and Mood</li>
+                    <li class="resource-item" onclick="openModal('Desk Stretches', 'physical3')">Desk Stretches</li>
+                    <li class="resource-item" onclick="openModal('Outdoor Activities', 'physical4')">Outdoor Activities</li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">👥</div>
+                <div class="category-title">Relationships</div>
+                <div class="category-description">
+                    Build stronger connections and improve your social wellbeing.
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item" onclick="openModal('Communication Skills', 'relationship1')">Communication Skills</li>
+                    <li class="resource-item" onclick="openModal('Setting Boundaries', 'relationship2')">Setting Boundaries</li>
+                    <li class="resource-item" onclick="openModal('Dealing with Conflict', 'relationship3')">Dealing with Conflict</li>
+                    <li class="resource-item" onclick="openModal('Building Support Networks', 'relationship4')">Building Support Networks</li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">📚</div>
+                <div class="category-title">Educational Content</div>
+                <div class="category-description">
+                    Learn more about mental health conditions and treatment options.
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item" onclick="openModal('Understanding Anxiety', 'education1')">Understanding Anxiety</li>
+                    <li class="resource-item" onclick="openModal('Depression Awareness', 'education2')">Depression Awareness</li>
+                    <li class="resource-item" onclick="openModal('When to Seek Help', 'education3')">When to Seek Help</li>
+                    <li class="resource-item" onclick="openModal('Types of Therapy', 'education4')">Types of Therapy</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div id="resourceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <div id="modalContent" class="modal-text"></div>
+        </div>
+    </div>
+
+    <script>
+        const resourceContent = {
+            meditation1: `
+                <h3>🌸 5-Minute Breathing Meditation</h3>
+                <p><strong>This simple breathing exercise can help calm your mind and reduce stress in just a few minutes.</strong></p>
+                
+                <h4>Steps:</h4>
+                <ol>
+                    <li><strong>Find a comfortable position</strong> - Sit or lie down in a quiet space</li>
+                    <li><strong>Close your eyes</strong> - Or soften your gaze downward</li>
+                    <li><strong>Natural breathing</strong> - Don't try to change your breath, just observe it</li>
+                    <li><strong>Count your breaths</strong> - Inhale (1), exhale (2), up to 10, then start over</li>
+                    <li><strong>Notice wandering</strong> - When your mind wanders, gently return to counting</li>
+                    <li><strong>End mindfully</strong> - Take a moment to notice how you feel before opening your eyes</li>
+                </ol>
+                
+                <p><em>Practice this daily for best results. Even 5 minutes can make a significant difference in your stress levels.</em></p>
+            `,
+            
+            coping1: `
+                <h3>🌊 Managing Anxiety Attacks</h3>
+                <p><strong>Anxiety attacks can feel overwhelming, but these techniques can help you regain control.</strong></p>
+                
+                <h4>Immediate Techniques:</h4>
+                <ul>
+                    <li><strong>5-4-3-2-1 Grounding:</strong> Name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, 1 you taste</li>
+                    <li><strong>Box Breathing:</strong> Inhale for 4, hold for 4, exhale for 4, hold for 4</li>
+                    <li><strong>Cold water:</strong> Splash cold water on your face or hold an ice cube</li>
+                    <li><strong>Progressive muscle relaxation:</strong> Tense and release muscle groups</li>
+                </ul>
+                
+                <h4>Remember:</h4>
+                <p>✓ Anxiety attacks are temporary and will pass<br>
+                ✓ You are safe, even though it doesn't feel like it<br>
+                ✓ Focus on the present moment, not future worries</p>
+                
+                <p><em>If anxiety attacks become frequent, consider speaking with a mental health professional.</em></p>
+            `,
+            
+            sleep1: `
+                <h3>😴 Sleep Hygiene Guide</h3>
+                <p><strong>Good sleep hygiene can dramatically improve your sleep quality and mental health.</strong></p>
+                
+                <h4>Bedtime Routine:</h4>
+                <ul>
+                    <li><strong>Consistent schedule:</strong> Go to bed and wake up at the same time daily</li>
+                    <li><strong>Wind-down time:</strong> Start relaxing activities 1 hour before bed</li>
+                    <li><strong>No screens:</strong> Avoid phones, TV, computers 1 hour before sleep</li>
+                    <li><strong>Comfortable environment:</strong> Cool, dark, and quiet room</li>
+                </ul>
+                
+                <h4>Daily Habits:</h4>
+                <ul>
+                    <li><strong>Morning sunlight:</strong> Get natural light within 30 minutes of waking</li>
+                    <li><strong>Limit caffeine:</strong> No caffeine after 2 PM</li>
+                    <li><strong>Regular exercise:</strong> But not within 3 hours of bedtime</li>
+                    <li><strong>Avoid large meals:</strong> Don't eat heavy meals close to bedtime</li>
+                </ul>
+                
+                <p><em>It may take 2-4 weeks to see improvements in your sleep pattern.</em></p>
+            `
+        };
+        
+        function openModal(title, contentKey) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalContent').innerHTML = resourceContent[contentKey] || '<p>Content coming soon...</p>';
+            document.getElementById('resourceModal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('resourceModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('resourceModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
